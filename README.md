@@ -1,5 +1,5 @@
-# { WORKSHOP NAME } 
-### Presentation: [{ YOUR PRESENTATION NAME }](workshop/presentation_template.pdf)
+# Building with Coding Agents
+### Presentation: [Building with Coding Agents](workshop/presentation_template.pdf)
 
 ## Workshop description
 Describe why your topic is important and what you want to share with your audience
@@ -38,7 +38,7 @@ After you have specified the Python version, you can create a virtual environmen
 Re-watch [this YouTube stream](link)
 
 ## Credits
-This workshop was set up by @pyladiesams and {your GitHub handler}
+This workshop was set up by @pyladiesams and @Fan-shiyu
 
 ## Appendix
 ### Pre-Commit Hooks
