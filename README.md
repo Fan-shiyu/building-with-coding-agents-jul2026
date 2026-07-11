@@ -1,38 +1,44 @@
 # Building with Coding Agents
-### Presentation: [Building with Coding Agents](workshop/presentation_template.pdf)
+### Presentation: [Building with Coding Agents](workshop/presentation.pdf)
 
 ## Workshop description
-Describe why your topic is important and what you want to share with your audience
+Coding agents like Claude Code and Gemini CLI can build real software from
+natural-language briefs — but the results depend far more on how you work
+with them than on which one you pick. In this hands-on workshop you build a
+Python Streamlit dashboard from ~120k rows of flight-order data, almost
+entirely by directing a coding agent: you write briefs, set up project
+context, add guardrails the agent cannot bypass, delegate to parallel
+subagents, let the agent verify its own work in a browser, and finally
+grade the result against a rubric you wrote. The exercises are prompt- and
+markdown-based — you direct, the agent codes.
+
+## Materials
+Everything is readable as two pages (recommended):
+* **[Workshop exercises](https://pyladiesams.github.io/building-with-coding-agents-jul2026/workshop.html)** — the five exercises, in order
+* **[Solutions](https://pyladiesams.github.io/building-with-coding-agents-jul2026/solutions.html)** — annotated solutions, revealed per exercise
+
+The same content lives in this repo under `workshop/` and `solutions/`
+(including a complete reference dashboard in `solutions/reference-dashboard/`).
 
 ## Requirements
-* PyLadies Amsterdam uses [uv](https://docs.astral.sh/uv/) for dependency management
-* Google account if you want to use [Google Colab](https://colab.research.google.com/)
- 
+* A coding agent: [Claude Code](https://docs.claude.com/en/docs/claude-code) (requires a Claude subscription or API key) or
+  [Gemini CLI](https://github.com/google-gemini/gemini-cli) (free with a Google account) — any agent works, the exercises are tool-agnostic
+* Python ≥ 3.10 and [uv](https://docs.astral.sh/uv/) for dependency management
+* Optional, for Exercise 4: Node.js ≥ 18 (Playwright MCP — you can also just watch the demo)
+
 ## Usage
-### with uv
-Run the following code:
 ```bash
-git clone <github-url-of-workshop-repo>
-cd <name-of-repo>
+git clone https://github.com/pyladiesams/building-with-coding-agents-jul2026
+cd building-with-coding-agents-jul2026
 
 # create and activate venv, install dependencies
 uv sync
 ```
-### with Google Colab
-1. Visit [Google Colab](https://colab.research.google.com/)
-2. In the top left corner select "File" &#8594; "Open Notebook"
-3. Under "GitHub", enter the URL of the repo of this workshop
-4. Select one of the notebooks within the repo.
-5. At the top of the notebook, add a Code cell and run the following code:
+Then open the [workshop page](https://pyladiesams.github.io/building-with-coding-agents-jul2026/workshop.html)
+and start with Exercise 1. To see the finished reference dashboard:
 ```bash
-!git clone <github-url-of-workshop-repo>
-%cd <name-of-repo>
-!pip install -r requirements.txt
+uv run streamlit run solutions/reference-dashboard/dashboard/app.py
 ```
-### for a workshop giver
-To get started, open the `pyproject.toml` file and set the required Python version. The pre-selected version 3.8 is generally a safe choice for most use cases.
-
-After you have specified the Python version, you can create a virtual environment with `uv venv` and add packages with `uv add <package>`. Before the workshop, you can generate a requirements.txt file, which is needed e.g. for running code in Google Colab, by running `uv export > requirements.txt`.
 
 ## Video record
 Re-watch [this YouTube stream](https://www.youtube.com/live/JsXePegi6uM)
