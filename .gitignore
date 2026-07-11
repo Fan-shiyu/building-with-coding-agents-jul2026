@@ -132,3 +132,7 @@ dmypy.json
 dashboard/
 CLAUDE.md
 GEMINI.md
+dryrun-brief.md
+dryrun-report.md
+.playwright-mcp/
+dryrun-*.png
