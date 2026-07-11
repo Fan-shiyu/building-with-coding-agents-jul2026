@@ -29,6 +29,14 @@ the structure you locked in Exercise 1's requirements card is what makes
 today's parallelism collision-free. (Sequential would not be *wrong*;
 it would be slower and equally correct. Delegation is a speed feature.)
 
+Two subtleties a sharp agent may surface: first, the sequential case's
+real strength is *accumulated judgment* (having just written three
+sibling files), not mere access to the rules — handing each subagent
+the skill file replicates the rules, not the judgment. Second, the
+honest reason parallel still wins: the reviewer in Part C is what
+backstops the consistency risk. We can afford four divergent
+interpretations because one standard-bearer checks them all afterward.
+
 ## Part B — Why the delegation prompt is shaped that way
 
 **📝 "ONLY on its own file and must not touch any other file"** — the
@@ -81,13 +89,16 @@ become a discussion. (This table is also your first taste of Exercise
 
 ## Part D — What to expect
 
-The reviewer usually finds 2–6 real items even right after the polish
-pass — typical catches: a caption that describes the chart instead of
-telling the reader what to look for (rule 6), a hover showing a raw
-float (rules 2/3), an insight-title that goes stale under filtering
-(rule 1). That's not the subagents failing; it's the fresh-eyes effect
-working — the author-agent reads its own output with the intent it had,
-the reviewer reads only what's actually on the page.
+How many findings to expect depends on how thorough Exercise 2 was:
+after a strong restyle, 0–3 is normal, and a clean table is a valid
+result. The likeliest catch is the most interesting kind: a
+letter-vs-intent collision — e.g. a maker deliberately kept value-axis
+gridlines on a horizontal bar chart, judging the rule's intent over its
+wording, and the reviewer (which judges by the letter, with no memory
+of that reasoning) flags the same line. Neither agent is wrong: the
+rule is. Amending the skill — with a horizontal-bar exception, say — is
+a fully legitimate Part D fix; findings can audit the rulebook, not
+just the code.
 
 **📝 "Fix ONLY what the report lists"** — the report is a scope, not an
 inspiration. Without that line, the fixing agent treats findings as a

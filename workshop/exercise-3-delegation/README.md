@@ -121,6 +121,11 @@ Fix ONLY what the report lists — nothing else. One change per finding.
 
 That restraint line matters: a report is a scope, not an inspiration.
 
+One special case: if a finding is a letter-vs-intent collision (the
+code is right, the rule's wording is wrong), the correct fix is to
+amend the rule in your skill file — then re-run the reviewer and watch
+the table come back clean.
+
 > 💬 **Share-out**: paste your reviewer's most interesting finding into
 > the workshop chat — especially anything the polish pass had *just*
 > touched and still got flagged.
