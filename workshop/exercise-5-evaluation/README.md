@@ -91,7 +91,7 @@ including at least one honest FAIL you planted on purpose.
      where that's more direct. Say which you used per row.
    - You fix NOTHING. You only grade. A FAIL is a finding, not a task.
    - Output: the rubric as a table with Verdict and Evidence columns
-     filled, then a one-line overall score (n/9 mechanical rows passed).
+     filled, then a one-line overall score (n/8 mechanical rows passed — row 9 is judgment, not mechanical).
 
    RUBRIC:
    [paste your completed rubric here]

@@ -76,8 +76,8 @@ You've now used this principle three ways: reviewer (Ex 3), verifier
 On a build that went through Exercises 1–4: rows 1–7 PASS with crisp
 evidence, row 8 FAIL (by design — evidence: "no download control exists
 in the sidebar"), row 9 usually PASS with reasoning that quotes your
-insight-titles. Score line: 8/9 mechanical — wait, 7/8 mechanical rows
-plus one designed FAIL: read it as **"everything promised: delivered;
+insight-titles. Score line: 7/8 mechanical rows, the designed FAIL being
+the eighth: read it as **"everything promised: delivered;
 next milestone: named."** That's the emotional note the workshop ends
 on — not a perfect score, a *measured* one.
 
