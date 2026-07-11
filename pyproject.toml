@@ -1,10 +1,14 @@
 [project]
-name = "workshoptopic-mmmyyyy"
+name = "building-with-coding-agents-jul2026"
 version = "0.1.0"
-description = "Add your description here"
+description = "PyLadies Amsterdam workshop: Building with Coding Agents — Ship a Python Streamlit Dashboard"
 readme = "README.md"
-requires-python = ">=3.8"
-dependencies = []
+requires-python = ">=3.10"
+dependencies = [
+    "streamlit>=1.49",
+    "plotly>=5.22",
+    "pandas>=2.2",
+]
 
 [tool.uv]
 dev-dependencies = [
