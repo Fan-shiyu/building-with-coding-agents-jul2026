@@ -28,7 +28,7 @@ structure, tech stack, quality baseline]
 CONSTRAINTS
 - The data/ folder is read-only: never modify, move, or rewrite the CSVs.
 - Use only Streamlit, Plotly, and pandas. Ask before adding anything else.
-- Don't touch the solutions/ folder.
+- Do not read, copy from, or modify the solutions/ folder — build fresh from this brief only.
 - Keep each file under ~80 lines; prefer simple, readable code.
 
 CHECKPOINT
@@ -60,7 +60,11 @@ and evaluation at these files by name.
 well-meaning agent plausibly does: "fixing" a CSV date format, adding a
 convenient library, "improving" the solutions folder. A constraint you
 state costs one line; the same constraint discovered after the fact costs
-a rebuild. (In Exercise 2 we'll upgrade the data rule from a polite
+a rebuild. The solutions rule says "read" and not just "modify" for a
+reason: agents explore the repo before building, and if a finished
+example exists they will quietly mirror it — harmless for correctness,
+but then the plan you review reflects the example's choices, not your
+brief. (In Exercise 2 we'll upgrade the data rule from a polite
 request to a hook the agent physically cannot bypass.)
 
 **📝 CHECKPOINT — the ingredient everyone forgets.** This one line changes
