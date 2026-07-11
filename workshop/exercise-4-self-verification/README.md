@@ -63,8 +63,12 @@ that checks the dashboard like you would, upgrade it into a
 1. In one terminal, start the app and leave it running:
 
    ```bash
-   uv run streamlit run dashboard/app.py
+   uv run streamlit run dashboard/app.py --server.runOnSave true
    ```
+
+   The runOnSave flag makes Streamlit reload modules when files change —
+   without it, a long-running server keeps pre-edit code in memory and
+   your verifier can bless stale code (see troubleshooting).
 
 2. Now write your verification prompt. It should tell the agent to
    check everything *you've* been checking by hand since Exercise 1 —
@@ -121,6 +125,12 @@ engineers test alarms: set a small fire.
 
 3. Watch the shape of what happens: verify → FAIL (your planted bug) →
    fix → verify → PASS. One iteration, caught and repaired without you.
+
+   If the loop reports all-green immediately after sabotage, be
+   suspicious: the server may still be serving the pre-edit module from
+   memory. Restart the server (or launch with --server.runOnSave true)
+   and run the loop again — a suspicious pass is a finding, not a
+   relief.
 
 4. The two lines you added are **loop engineering** in miniature: a
    goal with a verifier, and a **termination condition**. Ask yourself

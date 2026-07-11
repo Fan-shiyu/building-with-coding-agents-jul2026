@@ -3,7 +3,9 @@ description: Verify the running dashboard in a browser and fix what fails
   (max 3 rounds)
 ---
 
-The dashboard is running at http://localhost:8501. Open it in the
+The dashboard is running at http://localhost:8501. First confirm the
+page title is 'Flight Orders 2022' — if it isn't, stop and report that
+the wrong app is being served. Open it in the
 browser and verify:
 
 1. All four tabs (Trends, Channels, Profitability, Geography) render a

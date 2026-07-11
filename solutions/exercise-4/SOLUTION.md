@@ -80,6 +80,20 @@ load), that still passes the loop — worth noticing that verifiers
 accept any fix that satisfies the checks, which is both their power and
 their blind spot.
 
+**📝 The verification trap our own dry run hit — check identity, not
+just liveness.** Two real failures, both silent: (1) a stale Streamlit
+server from days earlier still held port 8501, so the browser verified
+a different app than the one being edited — the health check asked 'is
+something responding?' and blessed the wrong something; (2) Streamlit
+does not hot-reload changed submodules, so a long-running server
+rendered pre-edit code and the loop passed while the bug sat on disk.
+The fixes: launch with --server.runOnSave true, kill stale servers
+before verifying, and when a pass surprises you, verify *identity* —
+confirm which app.py the listener actually serves, or add an identity
+check (a page title or version string) to your verification prompt.
+Production loop engineering treats 'am I verifying the right thing?' as
+check zero.
+
 ## Part D — Why a file, why fixed
 
 **📝 The command is captured expertise**, same species as Exercise 2's
@@ -113,3 +127,6 @@ whichever you reach for.
 | Verify passes but the app looks broken to you | Your checks don't cover what you're seeing — add a check. The agent rises exactly to the standard of your verifier, never above it. |
 | Loop hits the 3-round cap | Working as designed: read the surrender report, fix by hand or raise the cap once. Never remove the cap. |
 | `/check-dashboard` not found | File not at `.claude/commands/check-dashboard.md`, or session predates it → new session. |
+| Verifier reports on the wrong app | A stale server holds the port from an earlier session — kill all Streamlit processes, restart, and confirm the listener's command line serves dashboard/app.py, not another copy. |
+| All-green immediately after sabotage | Server serving pre-edit code from memory (no submodule hot-reload) — restart it or launch with --server.runOnSave true, then re-run. |
+| Orphaned servers accumulate | Every "start the app" that loses the port race leaves an idle process — periodically kill all Streamlit processes; before a live demo, always. |
