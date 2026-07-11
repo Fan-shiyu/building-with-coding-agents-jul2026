@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Building with Coding Agents — Solutions</title>
+<style>
+:root{--bg:#fff;--panel:#fafbfb;--fg:#1f2933;--muted:#5b6b73;--accent:#2a9d8f;--border:#e4eae9;--pre:#f3f6f5;--code:#e9efee;--sel:#e5f4f1}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1517;--panel:#141b1e;--fg:#e6edf0;--muted:#9db0b5;--accent:#4fd1c5;--border:#26333a;--pre:#161e22;--code:#1d272c;--sel:#173a37}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.site{border-bottom:1px solid var(--border);padding:1.6rem 1.5rem;background:var(--panel)}
+.site h1{margin:0 0 .2rem;font-size:1.5rem;letter-spacing:-.3px}
+.lede{margin:0;color:var(--muted);font-size:.92rem}
+.layout{display:grid;grid-template-columns:minmax(210px,250px) 1fr;gap:2rem;max-width:1150px;margin:0 auto;padding:1.5rem}
+.toc{position:sticky;top:1rem;align-self:start;max-height:calc(100vh - 2rem);overflow:auto;font-size:.9rem}
+.toc strong{display:block;text-transform:uppercase;letter-spacing:.5px;font-size:.72rem;color:var(--muted);margin-bottom:.5rem}
+.toc-list{list-style:none;margin:0;padding:0}
+.toc-list>li{margin:.15rem 0}
+.toc-list a{display:block;padding:.25rem .5rem;border-radius:6px;color:var(--fg);border-left:2px solid transparent}
+.toc-list a:hover{background:var(--sel);text-decoration:none}
+.toc-list a.active{border-left-color:var(--accent);color:var(--accent);background:var(--sel);font-weight:600}
+.toc-sub{list-style:none;margin:.1rem 0 .3rem;padding-left:.6rem}
+.toc-sub a{font-size:.83rem;color:var(--muted)}
+main{min-width:0;max-width:75ch}
+main h1{font-size:1.6rem;letter-spacing:-.3px;margin-top:0}
+main h2{font-size:1.25rem;margin-top:2rem;padding-top:.3rem}
+.ex{scroll-margin-top:1rem;border-top:1px solid var(--border);padding-top:1.5rem;margin-top:2.5rem}
+.ex:first-of-type{border-top:0;margin-top:0}
+.file{scroll-margin-top:1rem}
+code{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.88em;background:var(--code);padding:.1em .35em;border-radius:4px}
+pre{position:relative;background:var(--pre);border:1px solid var(--border);border-radius:8px;padding:.9rem 1rem;overflow-x:auto}
+pre code{background:none;padding:0;font-size:.85rem;line-height:1.5}
+.copy{position:absolute;top:.5rem;right:.5rem;font:600 .72rem/1 inherit;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.3rem .55rem;cursor:pointer;opacity:.75}
+.copy:hover{opacity:1;color:var(--accent);border-color:var(--accent)}
+.tw{overflow-x:auto;margin:1rem 0}
+table{border-collapse:collapse;font-size:.9rem}
+th,td{border:1px solid var(--border);padding:.4rem .6rem;text-align:left}
+th{background:var(--panel)}
+details{border:1px solid var(--border);border-radius:8px;margin:1rem 0;background:var(--panel)}
+summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;font-family:monospace;color:var(--accent)}
+summary::marker{color:var(--accent)}
+.md{padding:0 1rem 1rem}
+.task{list-style:none}
+.task input{margin-right:.5rem}
+blockquote{border-left:3px solid var(--accent);margin:1rem 0;padding:.1rem 1rem;color:var(--muted)}
+.refdash{margin-top:3rem;border-top:1px solid var(--border);padding-top:1.5rem}
+@media (max-width:820px){.layout{grid-template-columns:1fr;gap:1rem}.toc{position:static;max-height:none;border-bottom:1px solid var(--border);padding-bottom:1rem}main{max-width:100%}}
+</style>
+</head>
+<body>
+<header class="site"><h1>Building with Coding Agents — Solutions</h1><p class="lede">materials for the PyLadies Amsterdam workshop, July 14, 2026 &middot; <a href="workshop.html">← Workshop</a></p></header>
+<div class="layout"><nav class="toc"><strong>Solutions</strong><ol class="toc-list"><li><a href="#exercise-1">Exercise 1</a><ul class="toc-sub"><li><a href="#exercise-1-solution">SOLUTION.md</a></li><li><a href="#exercise-1-claude-example">CLAUDE-example.md</a></li></ul></li><li><a href="#exercise-2">Exercise 2</a><ul class="toc-sub"><li><a href="#exercise-2-solution">SOLUTION.md</a></li><li><a href="#exercise-2-ui-style-skill">ui-style-SKILL.md</a></li></ul></li><li><a href="#exercise-3">Exercise 3</a><ul class="toc-sub"><li><a href="#exercise-3-solution">SOLUTION.md</a></li><li><a href="#exercise-3-style-reviewer">style-reviewer.md</a></li></ul></li><li><a href="#exercise-4">Exercise 4</a><ul class="toc-sub"><li><a href="#exercise-4-solution">SOLUTION.md</a></li><li><a href="#exercise-4-check-dashboard">check-dashboard.md</a></li><li><a href="#exercise-4-mcp-setup">mcp-setup.md</a></li></ul></li><li><a href="#exercise-5">Exercise 5</a><ul class="toc-sub"><li><a href="#exercise-5-solution">SOLUTION.md</a></li><li><a href="#exercise-5-rubric-example">rubric-example.md</a></li></ul></li></ol></nav><main><section id="exercise-1" class="ex"><h2 class="ex-h">Exercise 1</h2><section class="file" id="exercise-1-solution"><details><summary>SOLUTION.md &mdash; click to reveal</summary><div class="md"><h1>Exercise 1 — Solution: the annotated brief</h1>
+<p>Below is a complete brief that reliably produces the reference dashboard
+structure. The <strong>📝 notes explain why each part is there</strong> — the notes are
+the actual lesson; the brief is just one good way to apply them.</p>
+<p>If you're using this as a fallback: copy the text in the box, send it to
+your agent, review the plan it returns, approve, and continue with the
+workshop.</p>
+<hr />
+<h2>The brief</h2>
+<pre><code class="language-text">CONTEXT
+We're building a Streamlit dashboard for a travel-booking dataset:
+12 monthly CSV files in data/ (sales_2022_01.csv … sales_2022_12.csv),
+about 120,000 flight orders from 2022 with no missing values. The
+audience is business analysts who want to explore orders, margin, and
+channel performance interactively. This is a workshop project — clear,
+readable code matters more than cleverness.
+
+REQUIREMENTS
+[paste the full requirements card here — KPI views, filters, file
+structure, tech stack, quality baseline]
+
+CONSTRAINTS
+- The data/ folder is read-only: never modify, move, or rewrite the CSVs.
+- Use only Streamlit, Plotly, and pandas. Ask before adding anything else.
+- Do not read, copy from, or modify the solutions/ folder — build fresh from this brief only.
+- Keep each file under ~80 lines; prefer simple, readable code.
+
+CHECKPOINT
+Before writing any code: propose your implementation plan — the files
+you'll create, how you'll load and cache the 12 CSVs, and any assumptions
+you're making. List any questions you have. Wait for my approval, then
+set up the environment with uv and build.
+</code></pre>
+<hr />
+<h2>Why each part is there</h2>
+<p><strong>📝 CONTEXT — three sentences, three jobs.</strong> What the data is (so the
+agent doesn't have to guess or explore blindly), who it's for (business
+analysts → interactive, readable, no jargon), and what kind of project
+this is (workshop → simple beats clever). Without an audience, "make it
+professional" is undefined; with one, the agent can make taste decisions
+in the right direction.</p>
+<p><strong>📝 REQUIREMENTS — transplanted, not summarized.</strong> The requirements card
+goes in verbatim. Every detail you summarize away ("four views about
+sales") becomes a guess the agent makes ("I'll do revenue by weekday!").
+Copy-paste is not lazy here — it's precision. The exact file names are
+the load-bearing part: the later exercises point subagents, verification,
+and evaluation at these files by name.</p>
+<p><strong>📝 CONSTRAINTS — the "do not" list.</strong> Notice these are all things a
+well-meaning agent plausibly does: "fixing" a CSV date format, adding a
+convenient library, "improving" the solutions folder. A constraint you
+state costs one line; the same constraint discovered after the fact costs
+a rebuild. The solutions rule says "read" and not just "modify" for a
+reason: agents explore the repo before building, and if a finished
+example exists they will quietly mirror it — harmless for correctness,
+but then the plan you review reflects the example's choices, not your
+brief. (In Exercise 2 we'll upgrade the data rule from a polite
+request to a hook the agent physically cannot bypass.)</p>
+<p><strong>📝 CHECKPOINT — the ingredient everyone forgets.</strong> This one line changes
+the interaction from "gamble, then react" to "review, then release." Note
+it asks for three specific things: the file list (catches structure
+drift), the load strategy (catches the load-12-CSVs-in-every-view
+mistake), and assumptions + questions (surfaces what the agent would
+otherwise silently invent). "Wait for my approval" is explicit — some
+agents treat a plan request as a formality and keep going.</p>
+<hr />
+<h2>What a good plan looks like (and what to correct)</h2>
+<p>A healthy plan for this brief mentions: the exact file structure from the
+card · loading the CSVs once in data_loader.py with @st.cache_data ·
+filters living in app.py and the filtered dataframe passed to views ·
+environment setup as step one · usually one or two sensible questions.</p>
+<p>Corrections we'd expect you to make if they appear:</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>If the plan says…</th>
+<th>Reply with…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"I'll create dashboard/src/…" or different file names</td>
+<td>"Use exactly the file structure in the requirements — no src/ folder."</td>
+</tr>
+<tr>
+<td>"Each view will read the CSVs it needs"</td>
+<td>"Load once in data_loader.py, cache it, pass the dataframe down."</td>
+</tr>
+<tr>
+<td>"I'll use matplotlib for the charts"</td>
+<td>"Plotly only, as specified."</td>
+</tr>
+<tr>
+<td>"I'll also clean up the data files"</td>
+<td>"data/ is read-only — work with copies in memory."</td>
+</tr>
+</tbody>
+</table></div>
+<p>If the plan is good: <em>"Plan approved — go ahead."</em> Resist the urge to add
+new wishes at this point; scope added during approval is how builds
+drift.</p>
+<hr />
+<h2>Completed CLAUDE.md</h2>
+<p>See <a href="#exercise-1-claude-example"><code>CLAUDE-example.md</code></a> in this folder for a finished
+version of the Part B template, with the three TODOs resolved and short
+notes on the choices.</p></div></details></section><section class="file" id="exercise-1-claude-example"><details><summary>CLAUDE-example.md &mdash; click to reveal</summary><div class="md"><h1>Exercise 1 — Solution: completed CLAUDE.md</h1>
+<p>A finished version of the Part B template. Your wording will differ —
+what matters is that each TODO lands in the right <em>category</em>.</p>
+<pre><code class="language-markdown"># Project: Flight Orders Dashboard — PyLadies workshop
+
+## What this project is
+A Streamlit dashboard analyzing ~120k flight orders from 2022, stored as
+12 monthly CSVs in data/. Built during the PyLadies Amsterdam workshop
+&quot;Building with Coding Agents&quot;.
+
+## Tech stack
+- Python ≥ 3.10, dependencies managed with uv (pyproject.toml at repo root)
+- Streamlit for the app, Plotly for all charts
+- Run the app with: uv run streamlit run dashboard/app.py
+
+## Rules
+- The data/ folder is read-only. Never modify, move, or rewrite the CSVs.
+- Ask before adding any dependency that is not already in pyproject.toml.
+- Never delete files or run destructive commands (rm -rf, git reset)
+  without asking first.
+
+## Workflow
+- For any task that creates more than one file: propose a plan first and
+  wait for approval before writing code.
+- Charts should use the Plotly Set2 color palette.
+
+## About the data
+- More than half of all orders have a negative margin (median margin is
+  about −$0.45) — low or negative margins are normal in this dataset,
+  not a data error.
+</code></pre>
+<h2>How the three TODOs were resolved</h2>
+<p><strong>TODO 1 (own rule)</strong> → the no-destructive-commands rule. Any guardrail
+phrased as a standing rule works: "never touch solutions/", "never commit
+to git yourself", "never edit pyproject.toml directly". What makes it a
+CLAUDE.md rule is that you'd want it enforced in <em>every</em> session, forever.</p>
+<p><strong>TODO 2 (the sorting task)</strong> → option <strong>(a)</strong>, the Set2 palette. It's a
+project-wide convention — true for every chart, every session. Options
+(b) and (c) describe <em>specific tasks</em> on specific views: they belong in a
+brief (and (c) is literally this exercise's stretch goal in disguise).</p>
+<p><strong>TODO 3 (data knowledge)</strong> → the negative-margin fact. Why it's the
+right kind of sentence: a future agent session that doesn't know this
+might "helpfully" flag half the dataset as anomalous, or filter
+loss-making orders out of a chart as outliers. One sentence of domain
+context prevents a whole category of well-intentioned mistakes. (Any
+durable data fact works: "Total Ticket = Base Fare + Tax", "362 orders
+have a $0 ticket value — that's real, not an error".)</p></div></details></section></section>
+<section id="exercise-2" class="ex"><h2 class="ex-h">Exercise 2</h2><section class="file" id="exercise-2-solution"><details><summary>SOLUTION.md &mdash; click to reveal</summary><div class="md"><h1>Exercise 2 — Solution: annotated</h1>
+<p>Two artifacts live in this folder alongside these notes:
+<a href="#exercise-2-ui-style-skill"><code>ui-style-SKILL.md</code></a> (a complete 8-rule skill — save
+as <code>.claude/skills/ui-style/SKILL.md</code>) and
+<a href="https://github.com/pyladiesams/building-with-coding-agents-jul2026/blob/main/solutions/exercise-2/settings.json"><code>settings.json</code></a> (the finished hook config — save as
+<code>.claude/settings.json</code>, with the script at
+<code>.claude/hooks/block_data_edits.py</code>).</p>
+<p>If you're using this as a fallback: copy both into place, restart your
+agent session, and continue with Parts B and D of the exercise.</p>
+<hr />
+<h2>Part A/B — Why the skill works</h2>
+<p><strong>📝 The description is the trigger, not decoration.</strong> The agent reads
+only descriptions at session start (progressive disclosure); the full
+file loads when your request matches. That's why the description names
+the <em>situations</em> ("creating, modifying, or restyling charts, layout, or
+visual design") rather than summarizing the rules. A description that
+just said "style rules" might not fire on "improve the visual design."</p>
+<p><strong>📝 Good rules are checkable.</strong> Look at rule 1 in the solution skill:
+"titles state the insight." You can look at any chart and answer
+yes/no. "Make it look professional" — the phrase from Exercise 1's bad
+prompt — is not checkable, which is exactly why it produced guesses.
+The craft of skill-writing is converting taste into checkable
+statements. (This matters again in Exercise 5, where checkable
+statements become your evaluation rubric.)</p>
+<p><strong>📝 The deliberate palette gap.</strong> The Set2 palette line lives in
+CLAUDE.md, not the skill. Division of labor: one-line conventions true
+for <em>every</em> session → CLAUDE.md (always loaded, so keep it lean).
+Detailed how-to for <em>one kind of work</em> → skill (loaded only when doing
+that work). Your two files now demonstrate the token-economics story
+with your own project.</p>
+<p><strong>📝 Why the fresh session in Part B.</strong> Skills are discovered at session
+start. Mid-session file creation may not register — the single most
+common "my skill doesn't work" cause.</p>
+<h2>Part C/D — How the hook mechanics flow</h2>
+<pre><code>You send a request
+  → agent decides to call Edit on data/sales_2022_03.csv
+    → BEFORE the edit runs, Claude Code matches the tool name
+      against your matcher (&quot;Edit|Write|MultiEdit&quot;)
+      → match! → runs block_data_edits.py with the call as JSON on stdin
+        → script sees the path is under data/ → prints reason, exits 2
+          → the edit NEVER EXECUTES; the agent receives the reason
+            → agent tells you it can't modify data files
+</code></pre>
+<p><strong>📝 The two TODO answers.</strong> Matcher: <code>Edit|Write|MultiEdit</code> — the three
+tools that change file contents. Not <code>Read</code>/<code>Glob</code>/<code>Grep</code>: reading is
+harmless, and hooking it would slow every exploration for zero
+protection. Protected prefixes: <code>["data/"]</code> — the irreplaceable source
+data. (Add <code>"solutions/"</code> if you like — the reference materials deserve
+the same protection.)</p>
+<p><strong>📝 Exit code 2 is the whole trick.</strong> The script's <em>stderr</em> becomes the
+agent's explanation. Write it helpfully — "this folder is read-only,
+work with copies in memory" tells the agent what to do <em>instead</em>, so it
+recovers gracefully rather than retrying.</p>
+<p><strong>📝 What you should see in Part D.</strong> Round 1 usually ends at the
+instruction layer — many agents refuse without attempting the edit, and
+strong ones first verify the claim ("I scanned the file; the dates are
+already clean ISO format") before declining on principle. That refusal
+IS lesson one, not a failed test. Round 2 (the tripwire) is where the
+hook itself fires; expect Claude Code to report:</p>
+<blockquote>
+<p>PreToolUse:Write hook error: BLOCKED by hook: 'scratch/test.txt' is
+inside the protected 'scratch/' folder. This folder is read-only -
+work with copies in memory instead.</p>
+</blockquote>
+<p>...and scratch/ is never created: the block happens before any
+filesystem write.</p>
+<p>A good stderr message still pays off here: "work with copies in memory
+instead" tells the blocked agent what to do next, so it reroutes rather
+than retries.</p>
+<p><strong>📝 Honest limits (worth knowing, and worth one slide beat).</strong> This
+hook watches file-editing <em>tools</em>. An agent could still change a file
+through the Bash tool (<code>sed -i ...</code>) — matcher-based guardrails have
+scope, and defense in depth is why the soft rule stays in CLAUDE.md even
+after the hook exists. Production setups add a Bash matcher with command
+inspection; that's beyond today, but now you know the shape of the
+problem. Also keep hook messages ASCII-only — fancy dashes and emoji can
+garble in Windows consoles, and a garbled reason is a reason the agent
+can't read.</p>
+<p><strong>📝 Gemini CLI pointer.</strong> Gemini CLI supports hooks with a different
+config format (see its docs under hooks/custom commands). The concept —
+event, matcher, command, verdict — transfers unchanged; only the JSON
+shape differs.</p>
+<h2>Troubleshooting</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause → fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Skill never triggers</td>
+<td>Session started before the file existed → start a new session (CLI: exit + <code>claude</code>; VS Code: + New chat). Or file not at <code>.claude/skills/ui-style/SKILL.md</code> → check the path, note the leading dot.</td>
+</tr>
+<tr>
+<td>Hook never fires</td>
+<td>Same: start a new session (CLI: exit + <code>claude</code>; VS Code: + New chat). Or <code>settings.json</code> not at <code>.claude/settings.json</code>. Or matcher still says <code>TODO</code>.</td>
+</tr>
+<tr>
+<td>Hook fires on everything</td>
+<td>Matcher includes <code>Read</code> — remove it.</td>
+</tr>
+<tr>
+<td>Part D edit goes through</td>
+<td>Script path wrong in settings.json, or <code>PROTECTED_PREFIXES</code> still <code>["TODO/"]</code>.</td>
+</tr>
+<tr>
+<td>Restyle changed the charts' data</td>
+<td>Your skill has no "don't change data logic" rule — the solution's rule 8 exists for exactly this. Add it and re-run.</td>
+</tr>
+</tbody>
+</table></div></div></details></section><section class="file" id="exercise-2-ui-style-skill"><details><summary>ui-style-SKILL.md &mdash; click to reveal</summary><div class="md"><pre><code class="language-yaml">name: ui-style
+description: Use this skill whenever creating, modifying, or restyling
+  charts, layout, or visual design in the Streamlit dashboard. Covers
+  chart composition, labeling, formatting, and layout conventions.
+</code></pre>
+<h1>UI &amp; chart style conventions for this dashboard</h1>
+<p>The color palette (Plotly Set2) is set project-wide in CLAUDE.md; this
+skill covers everything the palette doesn't.</p>
+<h2>Rules</h2>
+<ol>
+<li>Chart titles state the insight, not the axis names — "Summer bookings
+   peak in August", not "Orders by month".</li>
+<li>Large numbers are formatted for humans: $1.2M and 12.4k — never raw
+   floats like 1234567.891.</li>
+<li>Every hover tooltip shows the exact value with its unit ($, orders,
+   %) — hover is where precision lives, so the chart itself can stay
+   clean.</li>
+<li>No legend when color encodes the same thing as an axis label (a bar
+   chart of channels doesn't need a channel legend).</li>
+<li>Horizontal gridlines only, and subtle; vertical gridlines are off.</li>
+<li>Every chart carries a one-sentence caption underneath saying what to
+   look for — written for someone seeing the chart for the first time.</li>
+<li>More than 10 categories in one chart → show the top 10 and say so in
+   the title.</li>
+<li>Restyling never changes what the data says: same aggregations, same
+   filters, same numbers — if a restyle would alter a value shown,
+   stop and ask first.</li>
+</ol></div></details></section></section>
+<section id="exercise-3" class="ex"><h2 class="ex-h">Exercise 3</h2><section class="file" id="exercise-3-solution"><details><summary>SOLUTION.md &mdash; click to reveal</summary><div class="md"><h1>Exercise 3 — Solution: annotated</h1>
+<p>The completed reviewer definition is in
+<a href="#exercise-3-style-reviewer"><code>style-reviewer.md</code></a> — save it as
+<code>.claude/agents/style-reviewer.md</code> and start a fresh session. The
+delegation prompt is in the exercise README's Part B and needs no
+changes to work.</p>
+<p>If you're using this as a fallback: copy the reviewer file into place,
+run the Part B prompt as-is, then the Part C audit prompt, and continue.</p>
+<hr />
+<h2>Part A — What a good both-sides answer contains</h2>
+<p><strong>For sequential</strong>: one agent keeps full context (it just restyled these
+files in Exercise 2 and remembers why choices were made); no
+coordination overhead; no risk of two agents making inconsistent
+choices; for four small files, the total time difference is minutes.</p>
+<p><strong>For parallel</strong>: the views are genuinely independent — separate files,
+no imports between them, all consuming the same dataframe interface;
+each subagent gets a small, focused context (the file + the skill)
+instead of everything; wall-clock time divides by ~4.</p>
+<p><strong>The tiebreaker the agent should land on</strong>: independence. Parallel
+delegation is safe <em>because</em> no two subagents can touch the same file —
+the structure you locked in Exercise 1's requirements card is what makes
+today's parallelism collision-free. (Sequential would not be <em>wrong</em>;
+it would be slower and equally correct. Delegation is a speed feature.)</p>
+<p>Two subtleties a sharp agent may surface: first, the sequential case's
+real strength is <em>accumulated judgment</em> (having just written three
+sibling files), not mere access to the rules — handing each subagent
+the skill file replicates the rules, not the judgment. Second, the
+honest reason parallel still wins: the reviewer in Part C is what
+backstops the consistency risk. We can afford four divergent
+interpretations because one standard-bearer checks them all afterward.</p>
+<h2>Part B — Why the delegation prompt is shaped that way</h2>
+<p><strong>📝 "ONLY on its own file and must not touch any other file"</strong> — the
+collision rule. Parallel agents editing the same file is the classic
+multi-agent failure; the prompt makes the file boundary explicit rather
+than hoping the agents infer it.</p>
+<p><strong>📝 "exactly ONE improvement ... its choice, but only one"</strong> — bounded
+creativity. Unbounded ("improve the view") invites scope creep times
+four; zero additions would make the run invisible. One visible change
+per file guarantees you can <em>see</em> that four agents did four things.</p>
+<p><strong>📝 "Helper files (like theme.py) may exist — leave them unchanged"</strong> —
+your Exercise 2 restyle likely created shared helpers. Four parallel
+agents all "improving" a shared helper is the collision rule's sneakiest
+violation, so it's named explicitly.</p>
+<p><strong>📝 The closing summary demand</strong> — subagent results come back to the
+main agent, which can silently absorb them. Requiring a per-file summary
+makes the fan-out/fan-in visible to <em>you</em>.</p>
+<h2>Part C — Why the two TODOs are the lesson</h2>
+<p><strong>TODO 1 answer: <code>tools: Read, Grep, Glob</code></strong> — the three tools that can
+look; none that can change. Edit and Write are the obvious exclusions;
+<strong>Bash is the subtle one</strong> — a "read-only" reviewer with Bash can <code>sed
+-i</code> its way around the whole constraint (the same loophole Exercise 2's
+hook has, now on the agent side). If you included Bash, you've built a
+reviewer that can quietly become an editor.</p>
+<p><strong>📝 Why architecture beats instruction here</strong> — you could write "please
+don't edit" in the body (we do, as belt-and-braces), but an agent under
+pressure ("just fix that one comma while you're there") will rationalize
+a quick edit. An agent <em>without Edit in its tool list</em> cannot. This is
+the hook lesson transposed: constraint by configuration survives
+persuasion; constraint by politeness doesn't. It also keeps the review
+honest over time — a reviewer that fixes things starts reviewing its own
+work, and fresh eyes stop being fresh.</p>
+<p><strong>TODO 2 answer: <code>.claude/skills/ui-style/SKILL.md</code></strong> — the single
+standard. Not CLAUDE.md (project facts, not design rules), and
+explicitly not the reviewer's own taste. A reviewer with a defined
+standard produces <em>actionable</em> findings ("violates rule 6"); a reviewer
+judging by taste produces opinions you can't close the loop on.</p>
+<p><strong>📝 The rigid output table</strong> — file / rule # / quoted evidence /
+verdict. Structured findings become Part D's work order; prose findings
+become a discussion. (This table is also your first taste of Exercise
+5's rubric thinking: checkable statements, evidence, verdicts.)</p>
+<h2>Part D — What to expect</h2>
+<p>How many findings to expect depends on how thorough Exercise 2 was:
+after a strong restyle, 0–3 is normal, and a clean table is a valid
+result. The likeliest catch is the most interesting kind: a
+letter-vs-intent collision — e.g. a maker deliberately kept value-axis
+gridlines on a horizontal bar chart, judging the rule's intent over its
+wording, and the reviewer (which judges by the letter, with no memory
+of that reasoning) flags the same line. Neither agent is wrong: the
+rule is. Amending the skill — with a horizontal-bar exception, say — is
+a fully legitimate Part D fix; findings can audit the rulebook, not
+just the code.</p>
+<p><strong>📝 "Fix ONLY what the report lists"</strong> — the report is a scope, not an
+inspiration. Without that line, the fixing agent treats findings as a
+theme ("while I'm at it...") and you lose the tight
+find→fix→verify correspondence that makes the loop auditable.</p>
+<h2>Troubleshooting</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause → fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No parallel Tasks visible in Part B</td>
+<td>Tool doesn't support subagents (Gemini CLI → sequential is expected), or the prompt lost the word "parallel".</td>
+</tr>
+<tr>
+<td>Two agents edited the same file</td>
+<td>The "ONLY its own file" line was dropped, or a shared helper got "improved" — restore from git and re-run with the prompt as written.</td>
+</tr>
+<tr>
+<td><code>style-reviewer</code> not found in Part C</td>
+<td>Session started before the file existed → new session (CLI: exit + <code>claude</code>; VS Code: + New chat). Or wrong path — must be <code>.claude/agents/style-reviewer.md</code>.</td>
+</tr>
+<tr>
+<td>Reviewer edited a file anyway</td>
+<td>Its <code>tools:</code> line includes Edit, Write, or Bash — remove them. The instruction alone is not the constraint; the tool list is.</td>
+</tr>
+<tr>
+<td>Reviewer reports taste, not rules</td>
+<td>TODO 2 not filled, or filled with CLAUDE.md — point it at the skill file.</td>
+</tr>
+<tr>
+<td>Empty violations table</td>
+<td>Legitimate if your skill is loose or the polish was thorough — a clean report is a valid report. Tighten one rule and re-run if you want to see it fire.</td>
+</tr>
+</tbody>
+</table></div></div></details></section><section class="file" id="exercise-3-style-reviewer"><details><summary>style-reviewer.md &mdash; click to reveal</summary><div class="md"><pre><code class="language-yaml">name: style-reviewer
+description: Read-only reviewer that audits dashboard code against the
+  project's style conventions. Use when asked to review, audit, or check
+  style compliance.
+tools: Read, Grep, Glob
+</code></pre>
+<p>You are a strict, read-only style reviewer for this project's Streamlit
+dashboard.</p>
+<h2>Your single standard</h2>
+<p>Judge ONLY against the rules in <code>.claude/skills/ui-style/SKILL.md</code>.</p>
+<p>Do not apply your own taste. If something looks ugly but violates no
+rule, it passes — note it at most as an observation, clearly separated
+from violations.</p>
+<h2>Your output — always this exact table</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>Rule #</th>
+<th>Quoted evidence</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>One row per finding. Quote the offending line or value exactly. After
+the table: one sentence per file summarizing overall compliance. If a
+file is fully compliant, say so — a clean report is a valid report.</p>
+<h2>What you never do</h2>
+<ul>
+<li>You never modify, create, or delete files. If you find a violation,
+  you report it — fixing is someone else's job.</li>
+<li>You never review files outside dashboard/ unless explicitly asked.</li>
+<li>You never soften findings to be polite. Rule violated = row in the
+  table.</li>
+</ul></div></details></section></section>
+<section id="exercise-4" class="ex"><h2 class="ex-h">Exercise 4</h2><section class="file" id="exercise-4-solution"><details><summary>SOLUTION.md &mdash; click to reveal</summary><div class="md"><h1>Exercise 4 — Solution: annotated</h1>
+<p>Two artifacts live alongside these notes:
+<a href="#exercise-4-check-dashboard"><code>check-dashboard.md</code></a> — the completed slash command
+(save as <code>.claude/commands/check-dashboard.md</code>) — and
+<a href="#exercise-4-mcp-setup"><code>mcp-setup.md</code></a> — Playwright MCP setup per tool.</p>
+<p>If you're using this as a fallback or reproducing at home: do the setup,
+start the app, save the command file, new session, type
+<code>/check-dashboard</code>.</p>
+<hr />
+<h2>Part A — Why the <code>/mcp</code> moment matters</h2>
+<p><strong>📝 The tool list IS the lesson.</strong> When <code>/mcp</code> shows
+<code>browser_navigate</code>, <code>browser_click</code>, <code>browser_console_messages</code>, you're
+looking at the Model Context Protocol doing its one job: a server
+exposing a menu of capabilities in a standard shape any agent can call.
+The same server config works in Claude Code, Gemini CLI, Cursor —
+that's the "USB-C for agents" pitch, verified on your own machine.
+Contrast with Exercise 2: <strong>skills teach the agent how; MCP gives it
+hands (and here, eyes).</strong></p>
+<p><strong>📝 Why the browser download belongs before the workshop</strong> — 150 MB ×
+30 participants × one venue's WiFi is how live demos die. Setup friction
+is real; schedule it where it can't hurt.</p>
+<h2>Part B — Why the checks are shaped that way</h2>
+<p><strong>📝 Concrete pass/fail, one interaction, one health signal.</strong> "Verify
+the dashboard works" invites the agent to look at the homepage and say
+"seems fine." The three-check shape forces evidence: rendering (charts
+contain data), behavior (a named filter produces a named change), and
+silence (zero console errors — the check that catches what looks fine
+but is quietly broken). Skeleton answers: check 2 — <em>select Journey
+type = "Return" and confirm the Trends chart's numbers change</em>; check 3
+— <em>read the browser console and confirm zero errors or warnings</em>.</p>
+<p><strong>📝 "Close the browser"</strong> — small hygiene line; without it the browser
+session lingers and the next run sometimes trips over it.</p>
+<p><strong>📝 The reviewer's ghost.</strong> The pass/fail-with-evidence table is
+Exercise 3's reviewer discipline transplanted from source code to a
+running app. Same epistemics: defined standard, quoted evidence,
+verdict. (In Exercise 5 this becomes a rubric and the standard becomes
+yours.)</p>
+<h2>Part C — The loop, annotated</h2>
+<p><strong>📝 Why sabotage is legitimate engineering.</strong> A verifier that has only
+ever said PASS is untested — you don't know if it <em>can</em> fail. Planting
+one known bug and watching FAIL → fix → PASS is how alarm systems, unit
+tests, and backup restores are validated. The rename-a-column bug is
+chosen because it's realistic (the most common real breakage), visibly
+crashes exactly one view, and has an unambiguous fix.</p>
+<p><strong>📝 The guardrail scope beat.</strong> The agent will happily sabotage
+<code>dashboard/</code> — and would be blocked sabotaging <code>data/</code>. If a
+participant asks "wait, why did it agree to break the code?", that's
+the Exercise 2 lesson resurfacing: protection is where you installed
+it, nowhere else.</p>
+<p><strong>📝 The termination condition is the entire second lesson.</strong> The loop
+lines add exactly two things: a repeat-until-pass rule and a cap.
+Without the cap: an agent whose fix is wrong in a new way each round
+loops until you notice the token bill. With it: bounded cost, and a
+<em>structured surrender</em> ("what I tried, what's still broken") that hands
+the problem back to the human with context instead of failing silently.
+That pattern — goal, verifier, repair, cap, report — is loop
+engineering in one paragraph. Real-world versions add budgets and
+checkpointing; the anatomy is identical.</p>
+<p><strong>📝 Expected live behavior</strong>: one iteration. Verify catches the planted
+crash in the sabotaged view (checks 1 and 3 both fire — the tab shows
+an exception and the console logs it), the agent reads the traceback,
+restores the column name, re-verifies, all green. If the agent fixes it
+<em>differently</em> than the sabotage (e.g. renames the dataframe column at
+load), that still passes the loop — worth noticing that verifiers
+accept any fix that satisfies the checks, which is both their power and
+their blind spot.</p>
+<p><strong>📝 The verification trap our own dry run hit — check identity, not
+just liveness.</strong> Two real failures, both silent: (1) a stale Streamlit
+server from days earlier still held port 8501, so the browser verified
+a different app than the one being edited — the health check asked 'is
+something responding?' and blessed the wrong something; (2) Streamlit
+does not hot-reload changed submodules, so a long-running server
+rendered pre-edit code and the loop passed while the bug sat on disk.
+The fixes: launch with --server.runOnSave true, kill stale servers
+before verifying, and when a pass surprises you, verify <em>identity</em> —
+confirm which app.py the listener actually serves, or add an identity
+check (a page title or version string) to your verification prompt.
+Production loop engineering treats 'am I verifying the right thing?' as
+check zero.</p>
+<h2>Part D — Why a file, why fixed</h2>
+<p><strong>📝 The command is captured expertise</strong>, same species as Exercise 2's
+skill — but <em>you</em> pull this trigger; the skill fires itself. (Skill =
+knowledge the agent applies when relevant; command = a button you
+press.) Committing <code>.claude/commands/</code> shares the button with everyone
+who clones the repo.</p>
+<p><strong>📝 Why no parameters</strong>: the exercise's point is capturing a refined
+prompt, not building tooling. One <code>$ARGUMENTS</code> placeholder adds ports
+or URLs later — one sentence in the docs, when you need it.</p>
+<h2>The Chrome-extension alternative (one honest paragraph)</h2>
+<p>Claude Code also integrates with the <strong>Claude in Chrome extension</strong>
+(<code>claude --chrome</code>): same verify-fix loop, driven from the same CLI,
+but steering <em>your real Chrome</em> — visible clicking, near-zero setup, no
+Node or download. It's the convenience option once you understand the
+machinery; we teach Playwright MCP because the machinery is the
+curriculum (visible MCP tools, works in any MCP-capable agent, headless
+when you want it). If you're Claude-only and paid-plan: try both, keep
+whichever you reach for.</p>
+<h2>Troubleshooting</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause → fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/mcp</code> shows nothing</td>
+<td>Server added but session predates it → new session (CLI: exit + <code>claude</code>; VS Code: + New chat).</td>
+</tr>
+<tr>
+<td>First run hangs</td>
+<td>The one-time browser download — let it finish; that's the 150 MB.</td>
+</tr>
+<tr>
+<td>Agent says it can't reach the app</td>
+<td>Streamlit not running, or a different port — check the terminal, pass the right URL.</td>
+</tr>
+<tr>
+<td>Verify passes but the app looks broken to you</td>
+<td>Your checks don't cover what you're seeing — add a check. The agent rises exactly to the standard of your verifier, never above it.</td>
+</tr>
+<tr>
+<td>Loop hits the 3-round cap</td>
+<td>Working as designed: read the surrender report, fix by hand or raise the cap once. Never remove the cap.</td>
+</tr>
+<tr>
+<td><code>/check-dashboard</code> not found</td>
+<td>File not at <code>.claude/commands/check-dashboard.md</code>, or session predates it → new session.</td>
+</tr>
+<tr>
+<td>Verifier reports on the wrong app</td>
+<td>A stale server holds the port from an earlier session — kill all Streamlit processes, restart, and confirm the listener's command line serves dashboard/app.py, not another copy.</td>
+</tr>
+<tr>
+<td>All-green immediately after sabotage</td>
+<td>Server serving pre-edit code from memory (no submodule hot-reload) — restart it or launch with --server.runOnSave true, then re-run.</td>
+</tr>
+<tr>
+<td>Orphaned servers accumulate</td>
+<td>Every "start the app" that loses the port race leaves an idle process — periodically kill all Streamlit processes; before a live demo, always.</td>
+</tr>
+</tbody>
+</table></div></div></details></section><section class="file" id="exercise-4-check-dashboard"><details><summary>check-dashboard.md &mdash; click to reveal</summary><div class="md"><pre><code class="language-yaml">description: Verify the running dashboard in a browser and fix what fails
+  (max 3 rounds)
+</code></pre>
+<p>The dashboard is running at http://localhost:8501. First confirm the
+page title is 'Flight Orders 2022' — if it isn't, stop and report that
+the wrong app is being served. Open it in the
+browser and verify:</p>
+<ol>
+<li>All four tabs (Trends, Channels, Profitability, Geography) render a
+   chart containing data — not empty, not an error message.</li>
+<li>Select Journey type = "Return" in the sidebar and confirm the Trends
+   chart's numbers change in response.</li>
+<li>Read the browser console and confirm there are zero errors.</li>
+</ol>
+<p>Report a pass/fail table with one line of evidence per item.</p>
+<p>If any check fails: diagnose the cause, fix the code, and verify again
+from the start. Repeat until every check passes — but attempt at most 3
+fix-and-verify rounds. If it still fails after 3, stop and report what
+you tried and what is still broken.</p>
+<p>When everything passes (or you stop at the cap), close the browser.</p></div></details></section><section class="file" id="exercise-4-mcp-setup"><details><summary>mcp-setup.md &mdash; click to reveal</summary><div class="md"><h1>Playwright MCP — setup per tool</h1>
+<p>The same server works in every MCP-capable agent; only the config step
+differs. That portability is the point of MCP.</p>
+<p><strong>Prerequisite for all tools</strong>: Node.js ≥ 18. First browser use
+downloads ~150 MB (one time) — do this before the workshop, not during.</p>
+<h2>Claude Code</h2>
+<pre><code class="language-bash">claude mcp add playwright -- npx @playwright/mcp@latest
+</code></pre>
+<p>New session, then <code>/mcp</code> to confirm the server and its tools are
+listed. To remove later: <code>claude mcp remove playwright</code>.</p>
+<h2>Gemini CLI</h2>
+<p>Add to your <code>settings.json</code> (<code>~/.gemini/settings.json</code>, or the
+project's <code>.gemini/settings.json</code>):</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;playwright&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;@playwright/mcp@latest&quot;]
+    }
+  }
+}
+</code></pre>
+<p>Restart the CLI; <code>/mcp</code> lists the connected servers.</p>
+<h2>Cursor / other MCP-capable tools</h2>
+<p>Same server command (<code>npx @playwright/mcp@latest</code>) in the tool's MCP
+configuration — check its docs for where the JSON lives. The tool names
+you'll see (<code>browser_navigate</code>, <code>browser_snapshot</code>, <code>browser_click</code>,
+<code>browser_console_messages</code>, …) are identical everywhere, because they
+come from the server, not the client.</p>
+<h2>Alternative for Claude users: the Chrome extension</h2>
+<p>Claude Code + the Claude in Chrome extension (<code>claude --chrome</code>) gives
+the same verify-and-fix capability steering your real Chrome — near-zero
+setup, no Node, visible clicking. Claude-only and paid-plan; see the
+"Chrome-extension alternative" note in SOLUTION.md for the trade-offs.</p></div></details></section></section>
+<section id="exercise-5" class="ex"><h2 class="ex-h">Exercise 5</h2><section class="file" id="exercise-5-solution"><details><summary>SOLUTION.md &mdash; click to reveal</summary><div class="md"><h1>Exercise 5 — Solution: annotated</h1>
+<p>The completed rubric is in <a href="#exercise-5-rubric-example"><code>rubric-example.md</code></a> —
+paste it into the Part B grading prompt as-is if you're using this as a
+fallback.</p>
+<hr />
+<h2>Why the rubric is shaped that way</h2>
+<p><strong>📝 Rows 1–3 are your <code>/check-dashboard</code> checks, formalized — on
+purpose.</strong> The reveal of this exercise is that you've been doing
+evaluation all week without the name: a verifier check and an eval
+criterion are the same species (checkable statement + defined decision
+method). The difference is scope and tense: the verifier gates <em>this
+change, now</em>; the eval measures <em>the whole build, over time</em>. Same
+rows, two instruments.</p>
+<p><strong>📝 Row 1 checks identity, not liveness.</strong> "The page title is 'Flight
+Orders 2022'" exists because our own dry runs got burned twice by
+verifying the wrong thing (a stale server on the port; stale code in
+memory). Check zero of any eval: am I measuring the thing I think I'm
+measuring?</p>
+<p><strong>📝 Rows 4–7 are the requirements card, made gradeable.</strong> Notice the
+circle closing: Exercise 1's brief promised these views; Exercise 5
+measures the promises. A rubric is a brief's afterlife. This is also
+why fixed KPIs made the workshop composable — everyone's rubric can
+name the same charts.</p>
+<p><strong>📝 Row 8, the designed FAIL, is the intellectually honest row.</strong> A
+rubric built only from what already passes is a mirror — it can't
+detect regress (nothing distinguishes "still good" from "the eval is
+too easy") and it can't guide progress. The deliberate gap turns the
+scorecard from a trophy into a roadmap. In real eval suites this is
+standard: aspirational criteria sit at FAIL until the work catches up,
+and the day one flips to PASS <em>is the progress signal</em>. If your row 8
+passed on the first grading, it wasn't aspirational — write a harder
+one.</p>
+<p><strong>📝 Row 9 exists to make a limitation visible, not to be reliable.</strong>
+Mechanical rows produce verdicts; the judgment row produces an opinion
+with reasoning — plausibly correct, visibly arguable, and it can differ
+between runs. That's LLM-as-judge in one row: use it for what code
+can't check (clarity, tone, would-a-stranger-get-it), never for what
+code can, and never alone for anything that matters. If you re-run the
+grading and row 9 flips while rows 1–8 hold, you've just seen judge
+noise with your own eyes — worth one share-out.</p>
+<h2>Why the grading prompt is shaped that way</h2>
+<p><strong>📝 "Grade ONLY against the rubric — no criteria of your own"</strong> — the
+Exercise 3 reviewer discipline, inherited. An eval's authority comes
+from its fixedness; a grader that improvises criteria is a critic, and
+critics can't be compared across runs.</p>
+<p><strong>📝 "You fix NOTHING"</strong> — same separation as the read-only reviewer,
+for the same reason: a grader that fixes starts grading its own
+work, and your scorecard stops meaning anything. (Here it's held by
+instruction rather than tool restriction — if you want it
+architectural, define a grader agent with <code>tools: Read, Grep, Glob</code> +
+the browser tools. Stretch of the stretch.)</p>
+<p><strong>📝 "Say which method you used per row"</strong> — makes the evidence
+auditable and teaches the two-instrument habit: browser for behavior,
+source for structure. Either alone can be fooled (this week proved it).</p>
+<p><strong>📝 Why a fresh session, one last time</strong> — the building session grades
+with its intent ("I meant the title to be insightful") instead of the
+evidence ("the title says…"). Fresh eyes read only what's on the page.
+You've now used this principle three ways: reviewer (Ex 3), verifier
+(Ex 4), grader (Ex 5). It's the same principle.</p>
+<h2>What to expect from the grading run</h2>
+<p>On a build that went through Exercises 1–4: rows 1–7 PASS with crisp
+evidence, row 8 FAIL (by design — evidence: "no download control exists
+in the sidebar"), row 9 usually PASS with reasoning that quotes your
+insight-titles. Score line: 7/8 mechanical rows, the designed FAIL being
+the eighth: read it as <strong>"everything promised: delivered;
+next milestone: named."</strong> That's the emotional note the workshop ends
+on — not a perfect score, a <em>measured</em> one.</p>
+<h2>Troubleshooting</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause → fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Grader invents extra criteria</td>
+<td>The "ONLY against the rubric" line was dropped — restore it and re-run.</td>
+</tr>
+<tr>
+<td>Grader fixes a failure</td>
+<td>Same — the "You fix NOTHING" line is load-bearing. Re-run; for architecture-level enforcement, use a restricted grader agent.</td>
+</tr>
+<tr>
+<td>Row 8 passed</td>
+<td>Your aspirational criterion already exists in the build — write a genuinely absent one.</td>
+</tr>
+<tr>
+<td>Row 9 verdict feels wrong</td>
+<td>Working as intended — argue with the reasoning, not the verdict. If it flips across runs, that's judge noise on display.</td>
+</tr>
+<tr>
+<td>Grader can't use the browser</td>
+<td>No Playwright MCP in this environment — have it mark browser-only rows SKIPPED and grade the rest from source + headless run. Partial evals are normal.</td>
+</tr>
+<tr>
+<td>All-green suspiciously fast</td>
+<td>The week's lesson: verify identity (row 1 exists for this) and make sure the server serves current code (--server.runOnSave true).</td>
+</tr>
+</tbody>
+</table></div></div></details></section><section class="file" id="exercise-5-rubric-example"><details><summary>rubric-example.md &mdash; click to reveal</summary><div class="md"><h1>Exercise 5 — Solution: completed rubric</h1>
+<p>Paste the block below into the Part B grading prompt as-is. Your rows
+4–9 will differ in wording — what matters is that each mechanical row is
+decidable from evidence.</p>
+<pre><code class="language-text">RUBRIC — &quot;a good Flight Orders dashboard&quot;
+
+| # | Criterion | Check method | Verdict | Evidence |
+|---|-----------|--------------|---------|----------|
+| 1 | The app serves at localhost:8501 and the page title is
+      &quot;Flight Orders 2022&quot; (right app, not just *an* app) | browser | | |
+| 2 | Each of the three sidebar filters (month range, channel, journey
+      type) visibly changes the displayed data when used | browser | | |
+| 3 | The browser console shows zero errors during a full pass through
+      all four tabs | browser | | |
+| 4 | The Trends view shows monthly orders AND total margin on one
+      chart, and its title states an insight (e.g. names the peak),
+      not an axis label | browser | | |
+| 5 | The Channels view is a bar chart from which a reader can tell
+      which channel contributes the most total margin | browser | | |
+| 6 | The Profitability view shows the % of negative-margin orders AND
+      the median margin per order as metric cards | browser | | |
+| 7 | The Geography view shows exactly the top 10 destination countries
+      by orders, largest on top, with total margin on hover | browser
+      or code | | |
+| 8 | ASPIRATIONAL: a user can download the currently filtered data as
+      a CSV from the sidebar | browser | | |
+| 9 | JUDGMENT: someone seeing this dashboard cold would understand
+      each chart's takeaway from its title alone | judgment | | |
+</code></pre>
+<p>Notes on the choices: rows 4–7 restate the requirements card and the
+ui-style skill's promises in gradeable form (one decidable fact per
+row, no "looks good"). Row 8 is genuinely absent from the reference
+build — its FAIL is correct behavior. Row 9's verdict is expected to be
+arguable; that's the property on display.</p></div></details></section></section>
+<section class="refdash"><h2>Reference dashboard</h2><p>The full working dashboard is on GitHub, not inlined here: <a href="https://github.com/pyladiesams/building-with-coding-agents-jul2026/tree/main/solutions/reference-dashboard">solutions/reference-dashboard/</a>.</p></section></main></div>
+<script>
+document.querySelectorAll('main pre').forEach(function(pre){
+  var b=document.createElement('button');b.className='copy';b.type='button';
+  b.textContent='Copy';
+  b.addEventListener('click',function(){
+    var c=pre.querySelector('code');var t=(c?c.innerText:pre.innerText);
+    function ok(){b.textContent='Copied!';setTimeout(function(){
+      b.textContent='Copy';},1500);}
+    function fb(){var a=document.createElement('textarea');a.value=t;
+      document.body.appendChild(a);a.select();
+      try{document.execCommand('copy');}catch(e){}
+      document.body.removeChild(a);ok();}
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(ok,fb);}else{fb();}
+  });
+  pre.appendChild(b);
+});
+var links={};
+document.querySelectorAll('nav.toc a').forEach(function(a){
+  links[a.getAttribute('href').slice(1)]=a;});
+var obs=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting&&links[e.target.id]){
+      document.querySelectorAll('nav.toc a.active').forEach(function(x){
+        x.classList.remove('active');});
+      links[e.target.id].classList.add('active');}
+  });
+},{rootMargin:'0px 0px -70% 0px'});
+document.querySelectorAll('section[id]').forEach(function(s){obs.observe(s);});
+function openTarget(){
+  var h=decodeURIComponent(location.hash.slice(1));if(!h)return;
+  var el=document.getElementById(h);if(!el)return;
+  var d=el.tagName.toLowerCase()==='section'?el.querySelector('details')
+    :el.closest('details');
+  if(d)d.open=true;el.scrollIntoView();
+}
+document.querySelectorAll('nav.toc a').forEach(function(a){
+  a.addEventListener('click',function(){setTimeout(openTarget,0);});});
+window.addEventListener('hashchange',openTarget);
+openTarget();
+</script>
+</body>
+</html>

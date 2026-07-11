@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Building with Coding Agents — Workshop</title>
+<style>
+:root{--bg:#fff;--panel:#fafbfb;--fg:#1f2933;--muted:#5b6b73;--accent:#2a9d8f;--border:#e4eae9;--pre:#f3f6f5;--code:#e9efee;--sel:#e5f4f1}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1517;--panel:#141b1e;--fg:#e6edf0;--muted:#9db0b5;--accent:#4fd1c5;--border:#26333a;--pre:#161e22;--code:#1d272c;--sel:#173a37}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.site{border-bottom:1px solid var(--border);padding:1.6rem 1.5rem;background:var(--panel)}
+.site h1{margin:0 0 .2rem;font-size:1.5rem;letter-spacing:-.3px}
+.lede{margin:0;color:var(--muted);font-size:.92rem}
+.layout{display:grid;grid-template-columns:minmax(210px,250px) 1fr;gap:2rem;max-width:1150px;margin:0 auto;padding:1.5rem}
+.toc{position:sticky;top:1rem;align-self:start;max-height:calc(100vh - 2rem);overflow:auto;font-size:.9rem}
+.toc strong{display:block;text-transform:uppercase;letter-spacing:.5px;font-size:.72rem;color:var(--muted);margin-bottom:.5rem}
+.toc-list{list-style:none;margin:0;padding:0}
+.toc-list>li{margin:.15rem 0}
+.toc-list a{display:block;padding:.25rem .5rem;border-radius:6px;color:var(--fg);border-left:2px solid transparent}
+.toc-list a:hover{background:var(--sel);text-decoration:none}
+.toc-list a.active{border-left-color:var(--accent);color:var(--accent);background:var(--sel);font-weight:600}
+.toc-sub{list-style:none;margin:.1rem 0 .3rem;padding-left:.6rem}
+.toc-sub a{font-size:.83rem;color:var(--muted)}
+main{min-width:0;max-width:75ch}
+main h1{font-size:1.6rem;letter-spacing:-.3px;margin-top:0}
+main h2{font-size:1.25rem;margin-top:2rem;padding-top:.3rem}
+.ex{scroll-margin-top:1rem;border-top:1px solid var(--border);padding-top:1.5rem;margin-top:2.5rem}
+.ex:first-of-type{border-top:0;margin-top:0}
+.file{scroll-margin-top:1rem}
+code{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.88em;background:var(--code);padding:.1em .35em;border-radius:4px}
+pre{position:relative;background:var(--pre);border:1px solid var(--border);border-radius:8px;padding:.9rem 1rem;overflow-x:auto}
+pre code{background:none;padding:0;font-size:.85rem;line-height:1.5}
+.copy{position:absolute;top:.5rem;right:.5rem;font:600 .72rem/1 inherit;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.3rem .55rem;cursor:pointer;opacity:.75}
+.copy:hover{opacity:1;color:var(--accent);border-color:var(--accent)}
+.tw{overflow-x:auto;margin:1rem 0}
+table{border-collapse:collapse;font-size:.9rem}
+th,td{border:1px solid var(--border);padding:.4rem .6rem;text-align:left}
+th{background:var(--panel)}
+details{border:1px solid var(--border);border-radius:8px;margin:1rem 0;background:var(--panel)}
+summary{cursor:pointer;padding:.7rem 1rem;font-weight:600;font-family:monospace;color:var(--accent)}
+summary::marker{color:var(--accent)}
+.md{padding:0 1rem 1rem}
+.task{list-style:none}
+.task input{margin-right:.5rem}
+blockquote{border-left:3px solid var(--accent);margin:1rem 0;padding:.1rem 1rem;color:var(--muted)}
+.refdash{margin-top:3rem;border-top:1px solid var(--border);padding-top:1.5rem}
+@media (max-width:820px){.layout{grid-template-columns:1fr;gap:1rem}.toc{position:static;max-height:none;border-bottom:1px solid var(--border);padding-bottom:1rem}main{max-width:100%}}
+</style>
+</head>
+<body>
+<header class="site"><h1>Building with Coding Agents — Workshop</h1><p class="lede">materials for the PyLadies Amsterdam workshop, July 14, 2026 &middot; <a href="solutions.html">Solutions →</a></p></header>
+<div class="layout"><nav class="toc"><strong>Exercises</strong><ol class="toc-list"><li><a href="#exercise-1">Exercise 1 — The Brief &amp; the Plan</a></li><li><a href="#exercise-2">Exercise 2 — Standards &amp; Limits</a></li><li><a href="#exercise-3">Exercise 3 — Delegation</a></li><li><a href="#exercise-4">Exercise 4 — Self-Verification</a></li><li><a href="#exercise-5">Exercise 5 — Evaluation</a></li></ol></nav><main><section id="exercise-1" class="ex"><h1>Exercise 1 — The Brief &amp; the Plan</h1>
+<p>⚡ <strong>Start here:</strong> open <code>starter-prompt.md</code> first — this README walks you
+through the rest, one file per step.</p>
+<p>You are the architect. The agent is the contractor. In this exercise you'll
+experience the difference between a vague request and a real brief — and
+you'll never prompt the same way again.</p>
+<hr />
+<h2>🎯 Goal</h2>
+<p>Turn a vague prompt into a well-structured brief, set up your project's
+<code>CLAUDE.md</code>, and get your agent to propose a plan you approve <strong>before</strong> it
+writes any code. By the end, your agent is building dashboard v1 while you
+move on to the next block.</p>
+<h2>🧠 Concepts you'll use</h2>
+<ul>
+<li><strong>Project context (CLAUDE.md)</strong> — the standing instructions your agent
+  reads every session</li>
+<li><strong>Plan before code</strong> — review the drawings before construction starts</li>
+<li><strong>Guardrails (soft)</strong> — rules you state so the agent stays in bounds</li>
+<li><strong>The subcontractor mindset</strong> — brief quality determines output quality</li>
+</ul>
+<h2>📦 What's in this folder</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>README.md</code></td>
+<td>This file — your instructions</td>
+</tr>
+<tr>
+<td><code>starter-prompt.md</code></td>
+<td>A deliberately mediocre prompt (Part A)</td>
+</tr>
+<tr>
+<td><code>requirements-card.md</code></td>
+<td>The project spec to build your brief from (Part C)</td>
+</tr>
+<tr>
+<td><code>CLAUDE-template.md</code></td>
+<td>A CLAUDE.md with blanks for you to fill (Part B)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Part A — Feel the problem</h2>
+<ol>
+<li>Open <code>starter-prompt.md</code> and copy the <strong>bad prompt</strong>, including the
+   plan-only line at the end.</li>
+<li>Paste it into your coding agent and send.</li>
+<li>Read the plan that comes back. Note what the agent <strong>assumed</strong> or
+   <strong>invented</strong>: Which charts did it pick? What file structure? Which
+   library? Did it ask you anything?</li>
+</ol>
+<p>Nothing is wrong with your agent — it filled every gap in your prompt with
+a guess. Keep this plan (or a screenshot); you'll compare against it in
+Part D.</p>
+<blockquote>
+<p>💬 <strong>Share-out</strong>: paste the funniest or most dangerous assumption your
+agent made into the workshop chat.</p>
+</blockquote>
+<h2>Part B — Give the agent a memory</h2>
+<ol>
+<li>Open <code>CLAUDE-template.md</code>. Most of it is written; <strong>three spots are
+   yours to complete</strong> (marked with <code>✏️ TODO</code>).</li>
+<li>Fill them in, then save the completed file as <strong><code>CLAUDE.md</code> in the repo
+   root</strong> (next to <code>pyproject.toml</code>).</li>
+</ol>
+<blockquote>
+<p>🔧 Tool note: Claude Code reads <code>CLAUDE.md</code> automatically. Gemini CLI
+reads <code>GEMINI.md</code>, and several tools read <code>AGENTS.md</code> — same content,
+different filename. Save the one your tool uses (or both, they're tiny).</p>
+</blockquote>
+<h2>Part C — Write the real brief</h2>
+<ol>
+<li>Open <code>requirements-card.md</code>. This is your project spec: the KPIs, the
+   filters, the required file structure, the tech stack.</li>
+<li>Write your own brief in a scratch file or directly in your agent's
+   input. Build it from four ingredients:
+   - <strong>Context</strong> — what the data is, what we're building, who it's for
+   - <strong>Requirements</strong> — transplant the requirements card (don't retype —
+     copy it)
+   - <strong>Constraints</strong> — what the agent must not do, what to ask about
+   - <strong>Checkpoint</strong> — require a plan first and approval before any code</li>
+</ol>
+<p>The last ingredient is the one everyone forgets. Without it, the agent
+starts building immediately — and you've lost your review moment.</p>
+<h2>Part D — Review the plan, then release the agent</h2>
+<ol>
+<li>Send your brief. The agent replies with a plan (because you demanded
+   one).</li>
+<li>Review it against this checklist:
+   - [ ] File structure matches the requirements card <strong>exactly</strong>
+     (<code>app.py</code>, <code>data_loader.py</code>, <code>views/</code> with the four named files)
+   - [ ] The 12 CSVs are loaded <strong>once</strong>, concatenated, and cached — not
+     re-read by every view
+   - [ ] All four KPIs and all three filters are accounted for
+   - [ ] Environment setup (uv, dependencies) is part of the plan
+   - [ ] Any assumption you disagree with? Say so <strong>now</strong> — this is the
+     cheapest moment to change course</li>
+<li>Compare it with the Part A plan. Same agent, same task, same data.
+   The difference is entirely your brief.</li>
+<li>Reply with your corrections, or approve: <em>"Plan approved — go ahead."</em></li>
+<li>Let the agent build. <strong>Don't wait for it</strong> — we continue with the next
+   block while it works.</li>
+</ol>
+<hr />
+<h2>✅ Success criteria</h2>
+<ul>
+<li>Your brief contains all four ingredients (context, requirements,
+  constraints, checkpoint)</li>
+<li>Your agent proposed a plan <strong>before</strong> writing code</li>
+<li>The approved plan matches the required file structure</li>
+<li><code>CLAUDE.md</code> exists in your repo root with all three TODOs completed</li>
+<li>Dashboard v1 is building (or built) in <code>dashboard/</code> at the repo root</li>
+</ul>
+<h2>🚀 Stretch goal</h2>
+<p>Finished early? Ask your agent: <em>"What information was missing from my
+brief that you had to assume?"</em> — then patch your brief with the answer.
+You just ran a retrospective on your own prompt.</p>
+<h2>🆘 Stuck?</h2>
+<p>A complete annotated brief and finished <code>CLAUDE.md</code> are in
+<a href="solutions.html#exercise-1"><code>solutions/exercise-1/</code></a>. Copy the solution
+brief, send it to your agent, and continue — falling back is allowed and
+you can study the annotations later.</p></section>
+<section id="exercise-2" class="ex"><h1>Exercise 2 — Standards &amp; Limits</h1>
+<p>⚡ <strong>Start here:</strong> open <code>SKILL-template.md</code> first — this README walks you
+through the rest, one file per step.</p>
+<p>In Exercise 1 you wrote a brief and the agent built your dashboard. Now
+you'll upgrade how you work with it in two ways: teach it your <strong>taste</strong>
+(a skill it applies automatically), then give it a <strong>rule it cannot
+break</strong> (a hook that protects your data). Soft standards, hard limits.</p>
+<hr />
+<h2>🎯 Goal</h2>
+<p>Create a <code>ui-style</code> skill that restyles your dashboard to <em>your</em> design
+rules from one vague prompt — then install a hook that makes the <code>data/</code>
+folder physically untouchable, and watch it bounce a very
+reasonable-sounding request.</p>
+<h2>🧠 Concepts you'll use</h2>
+<ul>
+<li><strong>Skills</strong> — expertise written down once, loaded only when relevant</li>
+<li><strong>Hooks</strong> — guardrails enforced by the system, not by the agent's
+  goodwill</li>
+<li><strong>Context economics</strong> — CLAUDE.md is the always-paid tax; skills are
+  pay-per-use</li>
+</ul>
+<h2>📦 What's in this folder</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>README.md</code></td>
+<td>This file — your instructions</td>
+</tr>
+<tr>
+<td><code>SKILL-template.md</code></td>
+<td>The skill file with room for your design rules (Part A)</td>
+</tr>
+<tr>
+<td><code>hook-template/settings.json</code></td>
+<td>Hook config with two blanks (Part C)</td>
+</tr>
+<tr>
+<td><code>hook-template/block_data_edits.py</code></td>
+<td>The checker script the hook runs — complete, read it</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Part A — Write your design rules</h2>
+<ol>
+<li>Open <code>SKILL-template.md</code>. The frontmatter and two example rules are
+   done; <strong>write 4–6 rules of your own</strong> where marked.</li>
+<li>Good rules are specific and checkable. Compare:
+   - ❌ "Make charts look clean"
+   - ✅ "Chart titles state the insight, not the axis names —
+     'Summer bookings peak in August', not 'Orders by month'"
+   Think: number formatting, hover tooltips, spacing, what every chart
+   must/must never have.</li>
+<li>Save the completed file as <strong><code>.claude/skills/ui-style/SKILL.md</code></strong>
+   (create the folders; note the leading dot).</li>
+</ol>
+<blockquote>
+<p>🔧 <strong>Gemini CLI</strong>: no native skills feature — save the file anywhere
+(e.g. <code>skills/ui-style.md</code>) and in Part B add one line to the prompt:
+<em>"First read skills/ui-style.md and follow it."</em> Same concept, manual
+trigger.</p>
+</blockquote>
+<h2>Part B — One vague prompt</h2>
+<ol>
+<li>Start a <strong>fresh agent session</strong> so the skill gets discovered — in the
+   terminal CLI: exit and run <code>claude</code> again; in the VS Code extension:
+   click the <strong>+ New chat</strong> button. Then send exactly this — nothing
+   more:</li>
+</ol>
+<pre><code class="language-text">Improve the visual design of the dashboard.
+</code></pre>
+<ol start="2">
+<li>That vagueness is the point: in Exercise 1, vague prompts produced
+   guesses. Now the skill fills the gap — the agent should announce it's
+   using <code>ui-style</code> and restyle to <em>your</em> rules.</li>
+<li>If your agent asks how far the restyle should go: pick the middle
+   path — charts plus light app polish, no custom CSS beyond a few lines.
+   (Agents that plan before acting often ask a scope question here —
+   that's your Exercise 1 workflow rule paying rent.)</li>
+<li>While it works (it takes a few minutes — don't wait, continue to
+   Part C), think about what would have happened without the skill.</li>
+<li>When it's done: <code>uv run streamlit run dashboard/app.py</code> — compare
+   against your Exercise 1 screenshots.</li>
+</ol>
+<blockquote>
+<p>💬 <strong>Share-out</strong>: paste your favorite rule and what the agent did with
+it into the workshop chat. Every dashboard in this workshop now looks
+different — that's the skill difference, not the agent difference.</p>
+</blockquote>
+<h2>Part C — Install the hard limit</h2>
+<ol>
+<li>Your brief and CLAUDE.md already <em>ask</em> the agent to leave <code>data/</code>
+   alone. Asking works — until context fills up, or a request sounds
+   reasonable enough. Now we make it a rule the agent can't break.</li>
+<li>Read <code>hook-template/block_data_edits.py</code> — it's complete. It receives
+   every file-editing tool call, checks the target path, and exits with
+   code 2 (= block) if the path is protected.</li>
+<li>Open <code>hook-template/settings.json</code> and fill in the <strong>two TODOs</strong>:
+   which tools count as file edits (the matcher), and — in the script —
+   which paths are protected.</li>
+<li>Copy your completed files into place:
+   - <code>settings.json</code> → <code>.claude/settings.json</code>
+   - <code>block_data_edits.py</code> → <code>.claude/hooks/block_data_edits.py</code></li>
+<li>Restart your agent session — CLI: exit and rerun <code>claude</code>; VS Code:
+   <strong>+ New chat</strong>. Settings load at session start; a hook added
+   mid-session silently doesn't exist yet.</li>
+</ol>
+<blockquote>
+<p>🔧 <strong>Gemini CLI</strong>: hooks exist but use a different config format — see
+the pointer in the solution. The universal fallback: keep the rule in
+your context file and verify manually. (The concept is what transfers.)</p>
+</blockquote>
+<h2>Part D — Try to break it (two rounds)</h2>
+<ol>
+<li><strong>Round 1 — test the doorman.</strong> Send this reasonable-sounding
+   request:</li>
+</ol>
+<pre><code class="language-text">   The dates in data/sales_2022_03.csv look wrong — please fix the
+   format directly in the file.
+</code></pre>
+<p>A well-behaved agent with your CLAUDE.md will likely <strong>refuse without
+   even trying</strong> — it may even check the data first and tell you the
+   dates are fine. That's the soft layer working: instructions, read and
+   honored. Lesson one.</p>
+<ol start="2">
+<li><strong>Round 2 — test the door.</strong> The hook never fired in round 1, because
+   no edit was attempted. To see the hard layer work, run the tripwire
+   test — the agent extends the guard, then walks into it:</li>
+</ol>
+<pre><code class="language-text">   Let's verify the hook wiring. 1) Edit
+   .claude/hooks/block_data_edits.py: change PROTECTED_PREFIXES from
+   [&quot;data/&quot;] to [&quot;data/&quot;, &quot;scratch/&quot;]. 2) Then create scratch/test.txt
+   containing the line &quot;hello&quot;. scratch/ is mentioned in no project
+   rule, so step 2 conflicts with nothing — if the hook works, your own
+   write should be blocked by the guard you just extended. Report what
+   happens.
+</code></pre>
+<p>Expected: step 1 succeeds, step 2's Write is <strong>blocked before it
+   executes</strong> — the agent reports the BLOCKED message and scratch/ is
+   never created. No restart needed: the hook re-runs the script fresh
+   on every tool call.</p>
+<ol start="3">
+<li>
+<p>Afterwards, tell the agent: "Revert PROTECTED_PREFIXES to
+   ["data/"]."</p>
+</li>
+<li>
+<p>What you just saw is defense in depth: the instruction layer refused
+   politely; the hook layer blocked mechanically. The first depends on
+   the agent's judgment; the second doesn't — which is why both exist.</p>
+</li>
+</ol>
+<blockquote>
+<p>💬 <strong>Share-out</strong>: paste either the round-1 refusal or the round-2
+BLOCKED message into the chat — say which layer caught it.</p>
+</blockquote>
+<hr />
+<h2>✅ Success criteria</h2>
+<ul>
+<li><code>.claude/skills/ui-style/SKILL.md</code> exists with 6–8 total rules</li>
+<li>The vague prompt triggered the skill and the dashboard visibly changed</li>
+<li>Round 1: the agent refused at the instruction layer; Round 2: the hook
+  blocked a write with your own eyes (BLOCKED message, exit code 2)</li>
+<li>Your dashboard still runs</li>
+</ul>
+<h2>🚀 Stretch goal</h2>
+<p>Add one more rule to the skill and re-run the vague prompt — one-line
+change, visible effect. Or theme the app shell: ask the agent to create a
+<code>.streamlit/config.toml</code> with a custom <code>[theme]</code> — the parts of the look
+Plotly doesn't control.</p>
+<h2>🆘 Stuck?</h2>
+<p>A complete 8-rule skill, the finished hook config, and the expected
+refusal transcript are in
+<a href="solutions.html#exercise-2"><code>solutions/exercise-2/</code></a>. Copy, install,
+continue — study the annotations later.</p></section>
+<section id="exercise-3" class="ex"><h1>Exercise 3 — Delegation</h1>
+<p>⚡ <strong>Start here:</strong> no files to open yet — Part A is a single question you
+ask your agent. This README walks you through the rest, one step at a
+time.</p>
+<p>So far one agent has done everything. In this exercise you'll delegate:
+first the <em>work</em> (parallel subagents, one per view), then the <em>checking</em>
+(a reviewer that can look but never touch). The rule that makes it work:
+never let the maker be the checker.</p>
+<hr />
+<h2>🎯 Goal</h2>
+<p>Run four subagents in parallel — each improving one view file against
+your ui-style skill — then create a <strong>read-only reviewer agent</strong> that
+audits the results and reports violations it cannot fix itself.</p>
+<h2>🧠 Concepts you'll use</h2>
+<ul>
+<li><strong>Subagents</strong> — focused agents with smaller jobs, spawned by your main
+  agent</li>
+<li><strong>When NOT to delegate</strong> — parallelism only pays when tasks are
+  independent</li>
+<li><strong>The reviewer pattern</strong> — fresh eyes, constrained by architecture
+  (missing tools), not politeness</li>
+</ul>
+<h2>📦 What's in this folder</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>README.md</code></td>
+<td>This file — your instructions</td>
+</tr>
+<tr>
+<td><code>reviewer-template.md</code></td>
+<td>The reviewer subagent definition with two blanks (Part C)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Part A — Ask before you delegate</h2>
+<p>Delegation is a choice, not a default. Make your agent argue it:</p>
+<pre><code class="language-text">I want to improve all four view files in dashboard/views/. Should you
+do this sequentially yourself, or delegate to parallel subagents? Argue
+both sides briefly, then recommend one — considering that the views are
+independent files that don't import each other.
+</code></pre>
+<p>Read the answer. The views <em>are</em> independent (they share only the
+dataframe passed in), so parallel should win here — but notice the
+sequential case the agent makes: shared context, no coordination cost,
+one set of eyes. That case wins more often than the hype suggests. Today
+just happens to be the other kind of day.</p>
+<h2>Part B — Delegate the work</h2>
+<p>Send this (adjust the improvement list to your taste):</p>
+<pre><code class="language-text">Delegate in parallel: spawn one subagent per view file in
+dashboard/views/ (trends.py, channels.py, profitability.py,
+geography.py). Each subagent works ONLY on its own file and must not
+touch any other file. Each subagent's task:
+
+1. Verify its view honors every rule in .claude/skills/ui-style/SKILL.md
+   and fix anything that doesn't.
+2. Add exactly ONE improvement to its view: a more helpful empty-state
+   message (what should the user do when no orders match?), a smarter
+   caption, or better hover formatting — its choice, but only one.
+
+Helper files (like theme.py) may exist in dashboard/ — leave them
+unchanged. When all four subagents finish, summarize per file: what was
+verified, what was fixed, and the one improvement made.
+</code></pre>
+<p>Watch your agent's output: you should see <strong>four Task agents launch and
+run at the same time</strong> — that's the parallelism, live. While they work
+(a few minutes), continue to Part C.</p>
+<blockquote>
+<p>🔧 <strong>Other tools (Gemini CLI etc.)</strong>: no parallel subagent feature —
+send the same prompt minus the word "parallel" and the agent will do
+the views one at a time. Same result, slower — which is itself the
+lesson: parallelism is a speed feature, not a quality feature. Watch
+the presenter's screen for the parallel version.</p>
+</blockquote>
+<h2>Part C — Create the reviewer</h2>
+<p>Now the checking — delegated to an agent that <em>cannot</em> fix what it
+finds.</p>
+<ol>
+<li>Open <code>reviewer-template.md</code> and fill in the <strong>two TODOs</strong>: which
+   tools a read-only reviewer gets (this is the whole trick), and what
+   single document it judges against.</li>
+<li>Save the completed file as <strong><code>.claude/agents/style-reviewer.md</code></strong>.</li>
+<li>Start a fresh session (CLI: exit + <code>claude</code>; VS Code: <strong>+ New
+   chat</strong>) — agent definitions load at session start — and send:</li>
+</ol>
+<pre><code class="language-text">Use the style-reviewer subagent to audit all four files in
+dashboard/views/ against the ui-style skill. I want the full violations
+table.
+</code></pre>
+<p>Why can't the reviewer just fix things? Because its tool list has no
+Edit in it. That's the hook lesson again, applied to agents: the
+constraint lives in the architecture, not in a polite instruction. A
+reviewer that can fix will fix — and start judging its own work by
+turn three.</p>
+<h2>Part D — Close the loop</h2>
+<p>The reviewer found things — even though the subagents <em>just</em> polished
+against the same rules. Fresh eyes on the same standard catch what the
+author missed; that's the entire argument for separating maker from
+checker. Now feed the findings back:</p>
+<pre><code class="language-text">Here is the reviewer's report: [paste the violations table]
+Fix ONLY what the report lists — nothing else. One change per finding.
+</code></pre>
+<p>That restraint line matters: a report is a scope, not an inspiration.</p>
+<p>One special case: if a finding is a letter-vs-intent collision (the
+code is right, the rule's wording is wrong), the correct fix is to
+amend the rule in your skill file — then re-run the reviewer and watch
+the table come back clean.</p>
+<blockquote>
+<p>💬 <strong>Share-out</strong>: paste your reviewer's most interesting finding into
+the workshop chat — especially anything the polish pass had <em>just</em>
+touched and still got flagged.</p>
+</blockquote>
+<hr />
+<h2>✅ Success criteria</h2>
+<ul>
+<li>Part A: your agent argued both sides before recommending</li>
+<li>Part B: four subagents ran (in parallel on Claude Code), each view
+  gained exactly one visible improvement, no file touched by two agents</li>
+<li>Part C: <code>.claude/agents/style-reviewer.md</code> exists; the reviewer
+  produced a violations table and <strong>edited nothing</strong></li>
+<li>Part D: fixes applied match the report line-for-line</li>
+</ul>
+<h2>🚀 Stretch goal</h2>
+<p>Run the reviewer again after Part D — does it come back clean? You've
+just built a manual verify-fix cycle. (Exercise 4 automates exactly
+this.) Or: define a second specialist, e.g. a <code>docs-reviewer</code> that only
+checks captions and docstrings.</p>
+<h2>🆘 Stuck?</h2>
+<p>The completed reviewer definition, the full delegation prompt, and the
+expected shape of the violations table are in
+<a href="solutions.html#exercise-3"><code>solutions/exercise-3/</code></a>. Copy, run,
+continue.</p></section>
+<section id="exercise-4" class="ex"><h1>Exercise 4 — Self-Verification</h1>
+<p>⚡ <strong>Start here:</strong> this exercise is <strong>demo-first</strong> — the presenter runs it
+live, and you can follow along if you set up Playwright MCP (Part A) or
+just watch and reproduce it tonight from these materials. Everything
+worth learning here is in the <em>prompts</em>, and those you'll write either
+way.</p>
+<p>Until now, <em>you</em> have been the one checking the dashboard — running it,
+clicking filters, eyeballing charts. In this exercise the agent gets
+eyes of its own: it opens your app in a real browser, verifies it,
+breaks it on purpose, fixes it in a loop, and then you save the whole
+routine as a one-word command.</p>
+<hr />
+<h2>🎯 Goal</h2>
+<p>Connect your agent to a browser via MCP, write a verification prompt
+that checks the dashboard like you would, upgrade it into a
+<strong>self-correcting loop with a retry cap</strong>, and save it as
+<code>/check-dashboard</code> — yours forever.</p>
+<h2>🧠 Concepts you'll use</h2>
+<ul>
+<li><strong>MCP</strong> — the standard that gives agents access to things (here: a
+  browser). Skills teach; MCP connects.</li>
+<li><strong>Agentic loops with verifiers</strong> — produce → check → fix → re-check</li>
+<li><strong>Termination conditions</strong> — the retry cap that keeps loops from
+  running forever (this is mini <strong>loop engineering</strong>)</li>
+<li><strong>Custom slash commands</strong> — the third time you type a prompt, save it</li>
+</ul>
+<hr />
+<h2>Part A — Give the agent eyes (setup)</h2>
+<blockquote>
+<p>👀 <strong>Watching the demo?</strong> Skip to Part B — nothing to install. The
+setup below is for following along live (if you did it before the
+workshop) or reproducing at home.</p>
+</blockquote>
+<ol>
+<li>Requires Node.js. Add the Playwright MCP server to Claude Code:</li>
+</ol>
+<pre><code class="language-bash">claude mcp add playwright -- npx @playwright/mcp@latest
+</code></pre>
+<ol start="2">
+<li>Start a new session (CLI: exit + <code>claude</code>; VS Code: <strong>+ New chat</strong>)
+   and type <code>/mcp</code> — you should see the playwright server with its
+   tools: <code>browser_navigate</code>, <code>browser_snapshot</code>,
+   <code>browser_take_screenshot</code>, <code>browser_click</code>,
+   <code>browser_console_messages</code>… Those names are the whole MCP idea made
+   visible: a menu of capabilities a server exposes, which any
+   MCP-compatible agent can call.</li>
+<li>⚠️ First use downloads a browser (~150 MB, a few minutes) — that's
+   why this belongs <em>before</em> the workshop, not during it.</li>
+</ol>
+<blockquote>
+<p>🔧 <strong>Gemini CLI</strong>: same server, different config — see
+<code>solutions/exercise-4/mcp-setup.md</code>. That portability is MCP's whole
+point.</p>
+</blockquote>
+<h2>Part B — The verification prompt</h2>
+<ol>
+<li>In one terminal, start the app and leave it running:</li>
+</ol>
+<pre><code class="language-bash">uv run streamlit run dashboard/app.py --server.runOnSave true
+</code></pre>
+<p>The runOnSave flag makes Streamlit reload modules when files change —
+   without it, a long-running server keeps pre-edit code in memory and
+   your verifier can bless stale code (see troubleshooting).</p>
+<ol start="2">
+<li>Now write your verification prompt. It should tell the agent to
+   check everything <em>you've</em> been checking by hand since Exercise 1 —
+   as concrete pass/fail items, not vibes. Skeleton to complete:</li>
+</ol>
+<pre><code class="language-text">The dashboard is running at http://localhost:8501. Open it in the
+browser and verify:
+1. All four tabs (Trends, Channels, Profitability, Geography) render
+   a chart containing data — not empty, not an error message.
+2. [✏️ your interactivity check — pick a filter, name the change you
+   expect. Example: select Journey type = &quot;Return&quot; and confirm the
+   Trends chart changes.]
+3. [✏️ your health check — what signal says &quot;nothing is silently
+   broken&quot;? Hint: the browser console.]
+Report a pass/fail table with one line of evidence per item, then
+close the browser.
+</code></pre>
+<ol start="3">
+<li>Send it and watch the transcript: the agent calls the MCP tools by
+   name — navigate, snapshot, click, read console — and returns your
+   table. That table should look familiar: it's Exercise 3's reviewer
+   discipline, pointed at a <em>running app</em> instead of source code.</li>
+</ol>
+<h2>Part C — Break it, then close the loop</h2>
+<p>A verifier that only ever says PASS is unproven. Test it the way
+engineers test alarms: set a small fire.</p>
+<ol>
+<li>Sabotage (one line):</li>
+</ol>
+<pre><code class="language-text">Introduce a small realistic bug in exactly one file under
+dashboard/views/: rename one dataframe column reference so that view
+crashes (e.g. &quot;Margin&quot; → &quot;Margins&quot;). Tell me the file and line you
+changed, and change nothing else.
+</code></pre>
+<p>(Notice the agent <em>can</em> do this — no hook protects <code>dashboard/</code>.
+   Only <code>data/</code> is armored. Guardrails have scope; you chose it in
+   Exercise 2.)</p>
+<ol start="2">
+<li>Now the loop — your Part B prompt plus the lines that make it
+   self-correcting:</li>
+</ol>
+<pre><code class="language-text">[your Part B verification prompt]
+
+If any check fails: diagnose the cause, fix the code, and verify
+again from the start. Repeat until every check passes — but attempt
+at most 3 fix-and-verify rounds. If it still fails after 3, stop and
+report what you tried and what's still broken.
+</code></pre>
+<ol start="3">
+<li>Watch the shape of what happens: verify → FAIL (your planted bug) →
+   fix → verify → PASS. One iteration, caught and repaired without you.</li>
+</ol>
+<p>If the loop reports all-green immediately after sabotage, be
+   suspicious: the server may still be serving the pre-edit module from
+   memory. Restart the server (or launch with --server.runOnSave true)
+   and run the loop again — a suspicious pass is a finding, not a
+   relief.</p>
+<ol start="4">
+<li>The two lines you added are <strong>loop engineering</strong> in miniature: a
+   goal with a verifier, and a <strong>termination condition</strong>. Ask yourself
+   what happens without "at most 3 rounds" if the agent's fix is wrong
+   in a new way each time — that cap is the difference between a
+   self-correcting system and an expensive infinite loop.</li>
+</ol>
+<h2>Part D — Save it forever</h2>
+<p>You've now typed (or refined) that verification prompt more than once.
+Rule of thumb: the third time, it becomes a command.</p>
+<ol>
+<li>Create the file <code>.claude/commands/check-dashboard.md</code> containing
+   exactly your Part C loop prompt (the whole thing, verification +
+   loop + cap).</li>
+<li>New session, then type:</li>
+</ol>
+<pre><code class="language-text">/check-dashboard
+</code></pre>
+<ol start="3">
+<li>That's it. The prompt you engineered is now a one-word tool — for
+   this project, forever, for anyone who clones the repo (if you commit
+   the command file). After any future change to the dashboard:
+   <code>/check-dashboard</code>.</li>
+</ol>
+<blockquote>
+<p>💬 <strong>Share-out</strong>: paste your loop's FAIL→fix→PASS moment into the
+chat — which check caught your planted bug?</p>
+</blockquote>
+<hr />
+<h2>✅ Success criteria</h2>
+<ul>
+<li><code>/mcp</code> lists the playwright server and its browser tools (if you set
+  up)</li>
+<li>Your verification prompt has ≥3 concrete pass/fail checks including
+  one interaction and one console check</li>
+<li>The loop caught the planted bug and fixed it within the retry cap</li>
+<li><code>.claude/commands/check-dashboard.md</code> exists and runs as
+  <code>/check-dashboard</code></li>
+</ul>
+<h2>🚀 Stretch goal</h2>
+<p>Make the loop's report append to a <code>verification-log.md</code> file with a
+timestamp — now you have an audit trail across sessions. (And if you're
+curious about parameterized commands — <code>/check-dashboard 8502</code> for a
+different port — look up <code>$ARGUMENTS</code> in your tool's custom-command
+docs; one placeholder is all it takes.)</p>
+<h2>🆘 Stuck?</h2>
+<p>The completed command file, a full working verification prompt, and
+per-tool MCP setup are in
+<a href="solutions.html#exercise-4"><code>solutions/exercise-4/</code></a>. Watching the
+demo <em>is</em> doing this exercise — reproduce it tonight.</p></section>
+<section id="exercise-5" class="ex"><h1>Exercise 5 — Evaluation</h1>
+<p>⚡ <strong>Start here:</strong> open <code>rubric-template.md</code> first — this README walks
+you through the rest.</p>
+<p>All week you've been improving your agent setup — a brief, a CLAUDE.md,
+a skill, a hook, a reviewer, a verification loop. One question remains:
+<strong>is any of it actually good?</strong> Feelings don't answer that. A rubric
+does. In this final exercise you define what "a good dashboard" means,
+in writing — and then a fresh agent grades your build against it, with
+evidence. Everyone leaves with a scorecard.</p>
+<hr />
+<h2>🎯 Goal</h2>
+<p>Write an 8–9 criterion rubric for your dashboard, have a <strong>fresh agent
+instance</strong> grade it pass/fail with evidence, and read your scorecard —
+including at least one honest FAIL you planted on purpose.</p>
+<h2>🧠 Concepts you'll use</h2>
+<ul>
+<li><strong>Evaluation</strong> — a verifier judges the work; an eval judges the
+  worker (your whole setup)</li>
+<li><strong>Checkable criteria</strong> — the skill you've practiced since Exercise 2's
+  rules</li>
+<li><strong>Code-check vs. LLM-as-judge</strong> — mechanical verdicts vs. judgment
+  verdicts, and why the difference matters</li>
+<li><strong>Fresh eyes</strong> — the grader must not be the session that built it
+  (Exercise 3's lesson, one last time)</li>
+</ul>
+<h2>📦 What's in this folder</h2>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>README.md</code></td>
+<td>This file — your instructions</td>
+</tr>
+<tr>
+<td><code>rubric-template.md</code></td>
+<td>The rubric: 3 criteria given, 6 for you to write (Part A)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Part A — Write the rubric</h2>
+<ol>
+<li>Open <code>rubric-template.md</code>. Three criteria are given — you'll
+   recognize them: they're your <code>/check-dashboard</code> checks, formalized.
+   That's no accident. A verifier check and an eval criterion are the
+   same species: a <strong>checkable statement with a defined way to decide
+   it</strong>.</li>
+<li>Write criteria 4–7: <strong>one per KPI view</strong>, each naming something
+   specific and decidable. Compare:
+   - ❌ "The trends view is good"
+   - ✅ "The Trends view shows monthly orders AND total margin on one
+     chart, and its title states an insight, not an axis name"</li>
+<li>Write criterion 8 — <strong>the aspirational one</strong>. Something the
+   dashboard should arguably do but <em>does not yet</em> (the template
+   suggests one). This row is <em>designed to FAIL</em>. Why on earth? Because
+   a rubric that only measures what you already built is a mirror, not
+   an instrument. The FAIL row is the difference between "look how good
+   I am" and "here's the gap, measured." Real eval suites are full of
+   deliberately-not-yet-passing criteria — that's the roadmap part.</li>
+<li>Write criterion 9 — <strong>the judgment one</strong>. Something real but not
+   mechanically checkable (the template suggests one). Mark its check
+   method as "judgment". This row exists so you can watch the
+   difference: rows 1–8 get verdicts, row 9 gets an <em>opinion with
+   reasoning</em> — useful, but noisier. That's the code-check vs.
+   LLM-as-judge trade in one table.</li>
+</ol>
+<h2>Part B — The grading run</h2>
+<ol>
+<li>Make sure the app is running:</li>
+</ol>
+<pre><code class="language-bash">uv run streamlit run dashboard/app.py --server.runOnSave true
+</code></pre>
+<ol start="2">
+<li>Start a <strong>fresh session</strong> (CLI: exit + <code>claude</code>; VS Code: <strong>+ New
+   chat</strong>). Fresh matters: the session that built the dashboard grades
+   it the way authors proofread their own writing — with the intent, not
+   the evidence. (Exercise 3, one last time.)</li>
+<li>Send this, pasting your completed rubric where marked:</li>
+</ol>
+<pre><code class="language-text">You are grading a Streamlit dashboard against a fixed rubric. The
+app runs at http://localhost:8501. Rules:
+
+- Grade ONLY against the rubric below. No criteria of your own.
+- For each criterion: verdict PASS or FAIL, plus ONE line of
+  evidence (a number, a quote, a screenshot observation). For the
+  row marked &quot;judgment&quot;: verdict plus two sentences of reasoning,
+  and label it JUDGMENT so it's visibly different in kind.
+- Use the browser to check what needs the browser; read source code
+  where that's more direct. Say which you used per row.
+- You fix NOTHING. You only grade. A FAIL is a finding, not a task.
+- Output: the rubric as a table with Verdict and Evidence columns
+  filled, then a one-line overall score (n/8 mechanical rows passed — row 9 is judgment, not mechanical).
+
+RUBRIC:
+[paste your completed rubric here]
+</code></pre>
+<ol start="4">
+<li>Read your scorecard. Expected shape: 8 passes and <strong>one honest FAIL</strong>
+   (your aspirational row) — plus a judgment row you can agree or argue
+   with.</li>
+</ol>
+<blockquote>
+<p>🔧 <strong>No browser MCP set up?</strong> The grader can still decide most rows by
+reading source and running the app headlessly — tell it to mark
+browser-only rows SKIPPED and grade the rest. Partial evals are
+normal; note what your instrument can't see.</p>
+</blockquote>
+<h2>Part C — Read it, share it, act on it once</h2>
+<ol>
+<li>Check the evidence lines, not just the verdicts — an eval you don't
+   read is a ritual.</li>
+<li>If anything failed that <em>shouldn't</em> have: that's a real finding —
+   fix it (you have <code>/check-dashboard</code> for exactly this) and re-grade.</li>
+<li>Your aspirational FAIL stays failed today — it's tomorrow's task,
+   measured. That's the point.</li>
+</ol>
+<blockquote>
+<p>💬 <strong>Share-out</strong>: paste your score line and your favorite evidence
+line into the workshop chat. Bonus: paste your aspirational
+criterion — what did you decide your dashboard should do next?</p>
+</blockquote>
+<hr />
+<h2>✅ Success criteria</h2>
+<ul>
+<li>Your rubric has 9 rows: 3 given, 4 view-specific, 1 aspirational,
+  1 judgment — every mechanical row decidable from evidence</li>
+<li>The grading ran in a <strong>fresh session</strong> and fixed nothing</li>
+<li>Your scorecard has evidence per row and exactly the FAILs you can
+  explain</li>
+<li>You can say out loud what your aspirational criterion measures and
+  why it's next</li>
+</ul>
+<h2>🚀 Stretch goal</h2>
+<p>Save your rubric as <code>.claude/commands/grade-dashboard.md</code> (you know
+how). Now your project has TWO one-word instruments: <code>/check-dashboard</code>
+asks "does it still work?"; <code>/grade-dashboard</code> asks "how good is it?"
+Run the second after any big change and watch your score move over time
+— that's an eval doing its real job.</p>
+<h2>🆘 Stuck?</h2>
+<p>A completed 9-row rubric and notes on writing checkable criteria are in
+<a href="solutions.html#exercise-5"><code>solutions/exercise-5/</code></a>. Copy, grade,
+continue.</p></section></main></div>
+<script>
+document.querySelectorAll('main pre').forEach(function(pre){
+  var b=document.createElement('button');b.className='copy';b.type='button';
+  b.textContent='Copy';
+  b.addEventListener('click',function(){
+    var c=pre.querySelector('code');var t=(c?c.innerText:pre.innerText);
+    function ok(){b.textContent='Copied!';setTimeout(function(){
+      b.textContent='Copy';},1500);}
+    function fb(){var a=document.createElement('textarea');a.value=t;
+      document.body.appendChild(a);a.select();
+      try{document.execCommand('copy');}catch(e){}
+      document.body.removeChild(a);ok();}
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(ok,fb);}else{fb();}
+  });
+  pre.appendChild(b);
+});
+var links={};
+document.querySelectorAll('nav.toc a').forEach(function(a){
+  links[a.getAttribute('href').slice(1)]=a;});
+var obs=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting&&links[e.target.id]){
+      document.querySelectorAll('nav.toc a.active').forEach(function(x){
+        x.classList.remove('active');});
+      links[e.target.id].classList.add('active');}
+  });
+},{rootMargin:'0px 0px -70% 0px'});
+document.querySelectorAll('section[id]').forEach(function(s){obs.observe(s);});
+function openTarget(){
+  var h=decodeURIComponent(location.hash.slice(1));if(!h)return;
+  var el=document.getElementById(h);if(!el)return;
+  var d=el.tagName.toLowerCase()==='section'?el.querySelector('details')
+    :el.closest('details');
+  if(d)d.open=true;el.scrollIntoView();
+}
+document.querySelectorAll('nav.toc a').forEach(function(a){
+  a.addEventListener('click',function(){setTimeout(openTarget,0);});});
+window.addEventListener('hashchange',openTarget);
+openTarget();
+</script>
+</body>
+</html>
