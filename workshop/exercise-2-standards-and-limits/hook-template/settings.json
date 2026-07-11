@@ -1,0 +1,27 @@
+{
+  "_instructions": [
+    "TODO 1 of 2 lives here; TODO 2 is in block_data_edits.py.",
+    "Fill in the 'matcher' below: a |-separated list of tool names this",
+    "hook should intercept. Question to answer: which of the agent's",
+    "tools can CHANGE a file's contents? Candidates to choose from:",
+    "  Read, Edit, Write, MultiEdit, Glob, Grep",
+    "Pick only the ones that modify files - intercepting reads would",
+    "slow everything down for no protection.",
+    "When done: save as .claude/settings.json (repo root), copy the",
+    "script to .claude/hooks/block_data_edits.py, restart your session.",
+    "Delete this _instructions block when you save."
+  ],
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "TODO",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/block_data_edits.py"
+          }
+        ]
+      }
+    ]
+  }
+}
