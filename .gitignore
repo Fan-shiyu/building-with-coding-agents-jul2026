@@ -138,3 +138,6 @@ dryrun-*
 .playwright-mcp/
 dryrun-*.png
 .claude/
+
+# rehearsal snapshots — local only, never commit
+rehearsal-checkpoints/
