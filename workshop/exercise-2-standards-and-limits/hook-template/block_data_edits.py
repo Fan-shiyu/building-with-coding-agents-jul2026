@@ -41,7 +41,7 @@ def main() -> None:
         if prefix_name in parts:
             print(
                 f"BLOCKED by hook: '{file_path}' is inside the protected "
-                f"'{prefix_name}/' folder. This folder is read-only — "
+                f"'{prefix_name}/' folder. This folder is read-only - "
                 "work with copies in memory instead.",
                 file=sys.stderr,
             )

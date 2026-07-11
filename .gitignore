@@ -134,5 +134,7 @@ CLAUDE.md
 GEMINI.md
 dryrun-brief.md
 dryrun-report.md
+dryrun-*
 .playwright-mcp/
 dryrun-*.png
+.claude/

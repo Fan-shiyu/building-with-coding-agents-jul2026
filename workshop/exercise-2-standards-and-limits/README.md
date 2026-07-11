@@ -56,8 +56,10 @@ reasonable-sounding request.
 
 ## Part B — One vague prompt
 
-1. Start a **fresh agent session** (so the skill gets discovered), then
-   send exactly this — nothing more:
+1. Start a **fresh agent session** so the skill gets discovered — in the
+   terminal CLI: exit and run `claude` again; in the VS Code extension:
+   click the **+ New chat** button. Then send exactly this — nothing
+   more:
 
    ```text
    Improve the visual design of the dashboard.
@@ -66,9 +68,13 @@ reasonable-sounding request.
 2. That vagueness is the point: in Exercise 1, vague prompts produced
    guesses. Now the skill fills the gap — the agent should announce it's
    using `ui-style` and restyle to *your* rules.
-3. While it works (it takes a few minutes — don't wait, continue to
+3. If your agent asks how far the restyle should go: pick the middle
+   path — charts plus light app polish, no custom CSS beyond a few lines.
+   (Agents that plan before acting often ask a scope question here —
+   that's your Exercise 1 workflow rule paying rent.)
+4. While it works (it takes a few minutes — don't wait, continue to
    Part C), think about what would have happened without the skill.
-4. When it's done: `uv run streamlit run dashboard/app.py` — compare
+5. When it's done: `uv run streamlit run dashboard/app.py` — compare
    against your Exercise 1 screenshots.
 
 > 💬 **Share-out**: paste your favorite rule and what the agent did with
@@ -89,28 +95,57 @@ reasonable-sounding request.
 4. Copy your completed files into place:
    - `settings.json` → `.claude/settings.json`
    - `block_data_edits.py` → `.claude/hooks/block_data_edits.py`
-5. Restart your agent session (hooks load at session start).
+5. Restart your agent session — CLI: exit and rerun `claude`; VS Code:
+   **+ New chat**. Settings load at session start; a hook added
+   mid-session silently doesn't exist yet.
 
 > 🔧 **Gemini CLI**: hooks exist but use a different config format — see
 > the pointer in the solution. The universal fallback: keep the rule in
 > your context file and verify manually. (The concept is what transfers.)
 
-## Part D — Try to break it
+## Part D — Try to break it (two rounds)
 
-1. Send this perfectly reasonable-sounding request:
+1. **Round 1 — test the doorman.** Send this reasonable-sounding
+   request:
 
    ```text
-   The dates in data/sales_2022_03.csv look wrong — please fix the
-   format directly in the file.
+      The dates in data/sales_2022_03.csv look wrong — please fix the
+      format directly in the file.
    ```
 
-2. Watch what happens: the edit is **blocked before it executes**, and
-   the agent reports it isn't allowed to modify data files. It didn't
-   *choose* to refuse — it *couldn't* comply.
-3. That's the difference between Exercise 1's constraint (a request the
-   agent reads) and a hook (a door that won't open).
+   A well-behaved agent with your CLAUDE.md will likely **refuse without
+   even trying** — it may even check the data first and tell you the
+   dates are fine. That's the soft layer working: instructions, read and
+   honored. Lesson one.
 
-> 💬 **Share-out**: paste the agent's refusal message into the chat.
+2. **Round 2 — test the door.** The hook never fired in round 1, because
+   no edit was attempted. To see the hard layer work, run the tripwire
+   test — the agent extends the guard, then walks into it:
+
+   ```text
+      Let's verify the hook wiring. 1) Edit
+      .claude/hooks/block_data_edits.py: change PROTECTED_PREFIXES from
+      ["data/"] to ["data/", "scratch/"]. 2) Then create scratch/test.txt
+      containing the line "hello". scratch/ is mentioned in no project
+      rule, so step 2 conflicts with nothing — if the hook works, your own
+      write should be blocked by the guard you just extended. Report what
+      happens.
+   ```
+
+   Expected: step 1 succeeds, step 2's Write is **blocked before it
+   executes** — the agent reports the BLOCKED message and scratch/ is
+   never created. No restart needed: the hook re-runs the script fresh
+   on every tool call.
+
+3. Afterwards, tell the agent: "Revert PROTECTED_PREFIXES to
+   ["data/"]."
+
+4. What you just saw is defense in depth: the instruction layer refused
+   politely; the hook layer blocked mechanically. The first depends on
+   the agent's judgment; the second doesn't — which is why both exist.
+
+> 💬 **Share-out**: paste either the round-1 refusal or the round-2
+> BLOCKED message into the chat — say which layer caught it.
 
 ---
 
@@ -118,8 +153,8 @@ reasonable-sounding request.
 
 - `.claude/skills/ui-style/SKILL.md` exists with 6–8 total rules
 - The vague prompt triggered the skill and the dashboard visibly changed
-- The hook blocks edits to `data/` — you saw the refusal with your own
-  eyes
+- Round 1: the agent refused at the instruction layer; Round 2: the hook
+  blocked a write with your own eyes (BLOCKED message, exit code 2)
 - Your dashboard still runs
 
 ## 🚀 Stretch goal
